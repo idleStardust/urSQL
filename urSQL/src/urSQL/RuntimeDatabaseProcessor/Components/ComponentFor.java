@@ -4,18 +4,58 @@ import urSQL.System.ResultSet;
 
 public class ComponentFor implements Component
 {
-	protected ResultSet _ApplicableTable;
+	/**
+	 *  Constant for XML type
+	 */
+	public static String TYPE_XML = "XML";
 	
-	public ComponentFor(ResultSet pTable)
+	/**
+	 *  Constant for JSON type
+	 */
+	public static String TYPE_JSON = "JSON";
+	
+	/**
+	 *  Type Requested for output
+	 */
+	protected String _FormatType;
+	
+	public ComponentFor(String pType)
 	{
-		this._ApplicableTable = pTable;
+		this._FormatType = pType;
 	}
 
 	@Override
 	public ResultSet apply(ResultSet pResultSet) 
 	{
-		// Convierte la tabla a un XML o Json
-		// Retorna la tabla donde el registro es la tabla convertida
+		// Converts the table data to XML or JSON
+		@SuppressWarnings("unused")
+		String dataInFormat;
+		//------- Type: XML -------
+		if (this._FormatType.equals(ComponentFor.TYPE_XML))
+		{
+			dataInFormat = this.convertToJson(pResultSet);
+		}
+		//------- Type: JSON-------
+		if (this._FormatType.equals(ComponentFor.TYPE_JSON))
+		{
+			dataInFormat = this.convertToJson(pResultSet);
+		}
 		return null;
+	}
+	
+	/**
+	 *  This converts a @ResultSet to a XML file.
+	 */
+	public String convertToXML(ResultSet pResultSet)
+	{
+		return "helloBitchImXML";
+	}
+	
+	/**
+	 *  This converts a @ResultSet to a JSON file.
+	 */
+	public String convertToJson(ResultSet pResultSet)
+	{
+		return "helloBitchImJson";
 	}
 }

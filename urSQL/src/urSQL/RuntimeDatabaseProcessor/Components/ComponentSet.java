@@ -1,17 +1,16 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.System.ResultSet;
-import urSQL.System.TableAttribute;
 
 public class ComponentSet implements Component
 {
-	protected TableAttribute _ColumnName;
+	protected String _ColumnName;
 	protected String _NewValue;
 	
-	public ComponentSet(String pNewVaule)
+	public ComponentSet(String pColumn, String pNewVaule)
 	{
-		// Búsqueda de MetadaData de la Columna
 		this._NewValue = pNewVaule;
+		this._ColumnName = pColumn;
 	}
 	
 	@Override

@@ -4,18 +4,27 @@ import urSQL.System.ResultSet;
 
 public class ComponentWhere implements Component
 {
+	/**
+	 *  The name of the evaluated column.
+	 */
 	protected String _ColumnName;
+	
+	/**
+	 *  The requested symbol operator.
+	 */
 	protected char   _ComparisonOperator;
+	
+	/**
+	 *  The value to compare.
+	 */
 	protected String _Value;
-	protected ResultSet _ApplicableTable;
 	
 	public ComponentWhere(String pColumnName, char pComparisonOperator, 
-			              String pValue, ResultSet pTable)
+			              String pValue)
 	{
 		this._ColumnName = pColumnName;
 		this._ComparisonOperator = pComparisonOperator;
 		this._Value = pValue;
-		this._ApplicableTable = pTable;
 	}
 
 	@Override
