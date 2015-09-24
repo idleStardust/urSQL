@@ -19,7 +19,7 @@ public class ComponentWhere implements Component
 	}
 
 	@Override
-	public ResultSet apply() 
+	public ResultSet apply(ResultSet pResultSet) 
 	{
 		// Filtra las columnas en la tabla que cumplan con la sentencia
 		return null;

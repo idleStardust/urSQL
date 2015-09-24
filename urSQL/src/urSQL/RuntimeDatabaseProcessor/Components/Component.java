@@ -4,5 +4,5 @@ import urSQL.System.ResultSet;
 
 public interface Component 
 {
-	public ResultSet apply();
+	public ResultSet apply(ResultSet pResultSet);
 }

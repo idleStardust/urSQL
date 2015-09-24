@@ -15,9 +15,8 @@ public class ComponentSet implements Component
 	}
 	
 	@Override
-	public ResultSet apply() 
+	public ResultSet apply(ResultSet pResultSet) 
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

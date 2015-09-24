@@ -12,7 +12,7 @@ public class ComponentFrom implements Component
 	}
 
 	@Override
-	public ResultSet apply() 
+	public ResultSet apply(ResultSet pResultSet) 
 	{
 		// Recuperar la tabla del SystemCatalog.
 		

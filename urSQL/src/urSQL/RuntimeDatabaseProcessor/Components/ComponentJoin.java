@@ -22,4 +22,9 @@ public class ComponentJoin
 	{
 		
 	}
+	
+	public ResultSet apply(ResultSet pResultSet)
+	{
+		return null;
+	}
 }

@@ -10,7 +10,6 @@ public class TableAttribute
 	
 	protected String _Name;
 	protected String _Type;
-	protected boolean _isPrimaryKey;
 	
 	public TableAttribute(String pName, String pType)
 	{
@@ -28,7 +27,7 @@ public class TableAttribute
 		return _Type;
 	}
 
-	public void set_Type(String pType) 
+	public void setType(String pType) 
 	{
 		this._Type = pType;
 	}	

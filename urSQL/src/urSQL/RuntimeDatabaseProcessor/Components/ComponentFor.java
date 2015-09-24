@@ -12,7 +12,7 @@ public class ComponentFor implements Component
 	}
 
 	@Override
-	public ResultSet apply() 
+	public ResultSet apply(ResultSet pResultSet) 
 	{
 		// Convierte la tabla a un XML o Json
 		// Retorna la tabla donde el registro es la tabla convertida
