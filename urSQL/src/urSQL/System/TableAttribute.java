@@ -1,5 +1,11 @@
 package urSQL.System;
 
+/**
+ * TableAttribute is a object that represents a attribute of a entity
+ * of a relational database.
+ * @author ArturoMora™
+ *
+ */
 public class TableAttribute
 {
 	public static final String TYPE_CHAR = "CHAR";
@@ -8,7 +14,14 @@ public class TableAttribute
 	public static final String TYPE_DECIMAL = "DECIMAL";
 	public static final String TYPE_DATETIME = "DATETIME";
 	
+	/**
+	 * Name of the attribute.
+	 */
 	protected String _Name;
+	
+	/**
+	 * Name of the type of the attribute.
+	 */
 	protected String _Type;
 	
 	public TableAttribute(String pName, String pType)
@@ -17,21 +30,33 @@ public class TableAttribute
 		this._Type = pType;
 	}
 
+	/**
+	 * Get for _Name.
+	 */
 	public String getName() 
 	{
-		return _Name;
+		return this._Name;
 	}
 
+	/**
+	 * Get for _Type.
+	 */
 	public String getType() 
 	{
-		return _Type;
+		return this._Type;
 	}
 
+	/**
+	 * Set for _Type.
+	 */
 	public void setType(String pType) 
 	{
 		this._Type = pType;
 	}	
 
+	/**
+	 * Set for _Name.
+	 */
 	public void setName(String pName) 
 	{
 		this._Name = pName;

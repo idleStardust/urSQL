@@ -1,6 +1,7 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import urSQL.System.ResultSet;
 
@@ -19,7 +20,7 @@ public class ComponentFrom implements Component
 		this._TableName = pTableName;
 		this._JoinTables = pJoinTables;
 	}
-
+	
 	@Override
 	public ResultSet apply(ResultSet pResultSet) 
 	{

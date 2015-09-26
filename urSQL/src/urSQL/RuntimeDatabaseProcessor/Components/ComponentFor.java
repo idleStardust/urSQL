@@ -34,7 +34,7 @@ public class ComponentFor implements Component
 	{
 		// Converts the table data to XML or JSON
 		@SuppressWarnings("unused")
-		String dataInFormat;
+		String dataInFormat = "";
 		//------- Type: XML -------
 		if (this._FormatType.equals(ComponentFor.TYPE_XML))
 		{

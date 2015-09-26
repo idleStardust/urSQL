@@ -28,6 +28,14 @@ public class ResultSet
 	}
 
 	/**
+	 *  Constructor with default parameter TableData.
+	 */
+	public ResultSet(TableMetadata pTableMetadata)
+	{
+		this(new TableData() ,pTableMetadata);
+	}
+	
+	/**
 	 * Get of _TableData
 	 */
 	public TableData getTableData() 

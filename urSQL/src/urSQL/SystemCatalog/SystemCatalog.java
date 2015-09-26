@@ -1,12 +1,15 @@
 package urSQL.SystemCatalog;
 
+import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
 
 public class SystemCatalog 
 {
     private static SystemCatalog INSTANCE = new SystemCatalog();
 
-    private SystemCatalog() {}
+    private SystemCatalog() 
+    {
+    }
 
     public static SystemCatalog getInstance() 
     {
@@ -32,21 +35,6 @@ public class SystemCatalog
     public boolean columExists(String pTableName, String pColumnName)
     {
     	// Busca en la tabla la columna deseada.
-    	return true;
-    }
-    
-    public boolean createDatabase(String pDatabaseName)
-    {
-    	return true;
-    }
-    
-    public boolean deleteDatabase(String pDatabaseName)
-    {
-    	return true;
-    }
-    
-    public boolean setDatabase(String pDatabaseName)
-    {
     	return true;
     }
     
