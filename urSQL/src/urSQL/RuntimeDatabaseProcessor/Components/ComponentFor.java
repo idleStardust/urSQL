@@ -13,7 +13,7 @@ public class ComponentFor implements Component
 	 *  Constant for XML type
 	 */
 	public static String TYPE_XML = "XML";
-	
+
 	/**
 	 *  Constant for JSON type
 	 */

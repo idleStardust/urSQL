@@ -1,8 +1,5 @@
 package urSQL.System;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 /**
  * ResultSet is a object that contains the data of the table 
  * and the information of attributes of the table.
@@ -14,7 +11,7 @@ public class ResultSet
 	/**
 	 *  The matrix of strings of chars that represent the information.
 	 */
-	protected LinkedList < LinkedList < String > > _TableData;
+	protected TableData _TableData;
 	
 	/**
 	 * The information about the attributes of the table.
@@ -24,7 +21,7 @@ public class ResultSet
 	/**
 	 *  Default constructor for ResultSet.
 	 */
-	public ResultSet(LinkedList< LinkedList < String > > pTableData, TableMetadata pTableMetadata)
+	public ResultSet(TableData pTableData, TableMetadata pTableMetadata)
 	{
 		this._TableData = pTableData;
 		this._TableMetadata = pTableMetadata; 
@@ -33,7 +30,7 @@ public class ResultSet
 	/**
 	 * Get of _TableData
 	 */
-	public LinkedList< LinkedList < String > > getTableData() 
+	public TableData getTableData() 
 	{
 		return this._TableData;
 	}
@@ -41,7 +38,7 @@ public class ResultSet
 	/**
 	 * Set of _TableData
 	 */
-	public void setTableData(LinkedList < LinkedList < String > > pTableData) 
+	public void setTableData(TableData pTableData) 
 	{
 		this._TableData = pTableData;
 	}
@@ -62,54 +59,14 @@ public class ResultSet
 		this._TableMetadata = pMetadata;
 	}
 	
-	
 	/**
 	 *  Print the MetaData And Data Information.
 	 */
 	public void print()
 	{
-		this.printMetadata();
-		// Empty Line
+		this._TableMetadata.print();
 		System.out.println("");
-		this.printTableData();
-	}
-		
+		this._TableData.print();
+	}	
 	
-	/**
-	 * Print the name of the attributes.
-	 */
-	public void printMetadata()
-	{
-		// Iterator
-		Iterator< TableAttribute > metaIterator = null;
-		// METADATA Iterator
-		metaIterator = this._TableMetadata._TableColumns.iterator();
-		// Print the METADATA
-		while( metaIterator.hasNext() )
-		{
-			System.out.print(metaIterator.next().getName() + '\t');
-		}
-	}
-		
-	/**
-	 * Print the entire information of the table.
-	 */
-	public void printTableData()
-	{
-		// Iterator
-		Iterator< LinkedList< String > > dataIterator = null;
-		Iterator< String > tempIterator = null;
-		dataIterator = this._TableData.iterator();
-		
-		// It's print the data of the table
-		while( dataIterator.hasNext() )
-		{
-			tempIterator = dataIterator.next().iterator();
-			while( tempIterator.hasNext() )
-			{
-				System.out.print(tempIterator.next() + '\t');
-			}
-			System.out.println();
-		}
-	}
 }

@@ -1,4 +1,5 @@
 package urSQL.System;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class TableMetadata
@@ -43,5 +44,22 @@ public class TableMetadata
 	public void setPrimaryKey(TableAttribute pPrimaryKey) 
 	{
 		this._PrimaryKey = pPrimaryKey;
+	}
+	
+
+	/**
+	 * Print the name of the attributes.
+	 */
+	public void print()
+	{
+		// Iterator
+		Iterator< TableAttribute > metaIterator = null;
+		// METADATA Iterator
+		metaIterator = this._TableColumns.iterator();
+		// Print the METADATA
+		while( metaIterator.hasNext() )
+		{
+			System.out.print(metaIterator.next().getName() + '\t');
+		}
 	}
 }
