@@ -9,8 +9,6 @@ public class RoutineDelete extends Routine
 	{
 		// Obtener una tabla de los datos que deben ser eliminados.
 		
-		// Eliminar por medio de la llave primaria.
-		
 		// Retornar una tabla de verificación de exito.
 		
 		return null;

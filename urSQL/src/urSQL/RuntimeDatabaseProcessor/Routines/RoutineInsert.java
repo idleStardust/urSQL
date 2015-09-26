@@ -7,7 +7,7 @@ public class RoutineInsert extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		// Crear una tabla con los valores que deben ser insertados.
+		// Verificar los tipos de los datos a insertar
 		
 		// Insertar los datos en la tabla adecuada.
 		

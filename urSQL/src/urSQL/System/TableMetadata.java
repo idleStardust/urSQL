@@ -1,16 +1,18 @@
 package urSQL.System;
-
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class TableMetadata
 {
 	protected String _TableName;
-	protected ArrayList<TableAttribute> _TableColumns;
+	protected LinkedList<TableAttribute> _TableColumns;
 	protected TableAttribute _PrimaryKey;
 	
-	public TableMetadata(String pTableName)
+	public TableMetadata(String pTableName, 
+			LinkedList< TableAttribute > pTableColumns, TableAttribute pPrimaryKey)
 	{
-		
+		this._TableName = pTableName;
+		this._TableColumns = pTableColumns;
+		this._PrimaryKey = pPrimaryKey;
 	}
 
 	public String getTableName() 
@@ -23,12 +25,12 @@ public class TableMetadata
 		this._TableName = pTableName;
 	}
 
-	public ArrayList<TableAttribute> getTableColumns() 
+	public LinkedList<TableAttribute> getTableColumns() 
 	{
 		return _TableColumns;
 	}
 
-	public void setTableColumns(ArrayList<TableAttribute> pTableColumns) 
+	public void setTableColumns(LinkedList<TableAttribute> pTableColumns) 
 	{
 		this._TableColumns = pTableColumns;
 	}

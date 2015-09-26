@@ -2,6 +2,11 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.System.ResultSet;
 
+/**
+ * 
+ * @author ArturoMora™
+ *
+ */
 public class ComponentFor implements Component
 {
 	/**

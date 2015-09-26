@@ -1,5 +1,7 @@
 package urSQL.SystemCatalog;
 
+import urSQL.System.TableMetadata;
+
 public class SystemCatalog 
 {
     private static SystemCatalog INSTANCE = new SystemCatalog();
@@ -36,5 +38,21 @@ public class SystemCatalog
     public boolean createDatabase(String pDatabaseName)
     {
     	return true;
+    }
+    
+    public boolean deleteDatabase(String pDatabaseName)
+    {
+    	return true;
+    }
+    
+    public boolean setDatabase(String pDatabaseName)
+    {
+    	return true;
+    }
+    
+    
+    public TableMetadata recoveryTableMetadata(String pTabla)
+    {
+    	return null;
     }
 }

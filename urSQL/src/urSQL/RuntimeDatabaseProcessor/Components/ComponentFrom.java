@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import urSQL.System.ResultSet;
 
+/**
+ * 
+ * @author ArturoMora™
+ *
+ */
 public class ComponentFrom implements Component
 {
 	protected String _TableName;
