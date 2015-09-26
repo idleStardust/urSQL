@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import urSQL.System.ResultSet;
+import urSQL.System.TableData;
 
 /**
  * 
@@ -50,6 +51,9 @@ public class ComponentJoin
 	 */
 	private ResultSet crossTable(ResultSet pTable, ResultSet pAnotherTable)
 	{
+		// Primary Keys most be equal
+		TableData propertyData = pTable.getTableData();
+		TableData anotherData = pAnotherTable.getTableData();
 		return null;
 	}
 }

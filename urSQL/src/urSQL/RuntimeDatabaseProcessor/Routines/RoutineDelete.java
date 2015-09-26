@@ -7,10 +7,9 @@ public class RoutineDelete extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		// Obtener una tabla de los datos que deben ser eliminados.
-		
-		// Retornar una tabla de verificación de exito.
-		
+		// Create the respective table
+		ResultSet table = this.runPlan();
+		// Verify Refential Integrity
 		return null;
 	}
 }

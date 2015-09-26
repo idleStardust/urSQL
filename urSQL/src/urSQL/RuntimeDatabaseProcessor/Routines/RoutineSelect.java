@@ -7,6 +7,6 @@ public class RoutineSelect extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		return null;
+		return(this.runPlan());
 	}
 }

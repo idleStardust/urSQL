@@ -6,14 +6,6 @@ import urSQL.System.TableMetadata;
 
 public class ComponentWhere implements Component
 {
-	public static final String MORE_THAN = ">";
-	public static final String LESS_THAN = "<";
-	public static final String EQUAL_THAN = "=";
-	public static final String LIKE = "LIKE";
-	public static final String NOT = "NOT";
-	public static final String IS_NULL = "IS NULL";
-	public static final String NOT_NULL = "IS NOT NULL";
-	public static final String NULL = "NULL";
 	/**
 	 *  The name of the evaluated column.
 	 */
@@ -46,28 +38,6 @@ public class ComponentWhere implements Component
 		TableData tableData = new TableData();
 		TableMetadata tableMetadata = pResultSet.getTableMetadata();
 		return (new ResultSet(tableData, tableMetadata));
-	}
-	
-	public boolean comparator(String pValue)
-	{
-		boolean returnValue = false;
-		if(this._ComparisonOperator == EQUAL_THAN)
-		{
-			returnValue = (this._Value.equalsIgnoreCase(this._Value));
-		}
-		if(this._ComparisonOperator == LIKE)
-		{
-			returnValue = (!this._Value.endsWith(NULL));
-		}
-		if(this._ComparisonOperator == IS_NULL)
-		{
-			returnValue = (this._Value.equalsIgnoreCase(NULL));
-		}
-		if(this._ComparisonOperator == NOT_NULL)
-		{
-			returnValue = (!this._Value.equalsIgnoreCase(NULL));
-		}
-		return true;
 	}
 	
 }

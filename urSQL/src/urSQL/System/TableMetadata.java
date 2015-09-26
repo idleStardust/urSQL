@@ -3,7 +3,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 /**
- * This object has all the METADATA of the table.
+ * This object has all the information of the name and type
+ * of the attributes of a entity.
  * @author ArturoMora™
  */
 public class TableMetadata
