@@ -2,6 +2,7 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
+import urSQL.SystemCatalog.SystemCatalog;
 
 public class ComponentDropDatabase implements Component {
 
@@ -14,7 +15,9 @@ public class ComponentDropDatabase implements Component {
 		StoreDataManager sdm = new StoreDataManager();
 		sdm.deleteDatabaseScheme(database_name);
 		
+		SystemCatalog sc = SystemCatalog.getInstance();
 		
+		sc.dropDatabase(database_name);
 		
 		return null;
 	}
