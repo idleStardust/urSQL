@@ -34,14 +34,6 @@ public class ResultSet
 		this._TableData = pTableData;
 		this._TableMetadata = pTableMetadata; 
 	}
-
-	/**
-	 *  Constructor with default parameter TableData.
-	 */
-	public ResultSet(TableMetadata pTableMetadata)
-	{
-		this(new TableData() ,pTableMetadata);
-	}
 	
 	public ResultSet(LinkedList<String> pColumnNames, TableRegister pValues, String pType)
 	{
@@ -54,6 +46,12 @@ public class ResultSet
 		}		
 	}
 	
+	public ResultSet(TableRegister pRegister, TableMetadata pTableMetadata)
+	{
+		this._TableData = new TableData();
+		this._TableData.getData().add(pRegister);
+		this._TableMetadata = pTableMetadata;
+	}
 	/**
 	 * Get of _TableData
 	 */

@@ -34,6 +34,10 @@ public class TableAttribute
 	public static final String TYPE_DATETIME = "DATETIME";
 	
 	/**
+	 * 
+	 */
+	public static final String NULL_DATA = "NULL";
+	/**
 	 * Name of the attribute.
 	 */
 	protected String _Name;

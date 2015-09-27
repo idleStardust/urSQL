@@ -2,7 +2,6 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
-import urSQL.SystemCatalog.SystemCatalog;
 
 public class ComponentSetDatabase implements Component {
 
