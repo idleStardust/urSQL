@@ -54,11 +54,9 @@ public class ComponentJoin
 		int indexOfPrimaryKey1 = pTable.getTableMetadata().indexByName(PKName1);
 		int indexOfPrimaryKey2 = pTable.getTableMetadata().indexByName(PKName2);
 		
-		TableData data1 = pTable.getTableData();
-		TableData data2 = pTable.getTableData();
-		// Primary Keys most be equal
-		// TableData propertyData = pTable.getTableData();
-		// TableData anotherData = pAnotherTable.getTableData();
+		ResultSet combinedTables = pTable.addResultSet(pAnotherTable);
+		
+		
 		return null;
 	}
 }

@@ -33,6 +33,15 @@ public class TableMetadata
 		this._TableName = pTableName;
 		this._TableColumns = pTableColumns;
 		this._PrimaryKey = pPrimaryKey;
+		
+		// Nombre A Cada Clase Con Su Table De Provenencia
+		Iterator< TableAttribute > attIterator = pTableColumns.iterator();
+		TableAttribute tmp = null;
+		while(attIterator.hasNext())
+		{
+			tmp = attIterator.next();
+			tmp.setName(pTableName + tmp.getName());
+		}
 	}
 
 	/**
