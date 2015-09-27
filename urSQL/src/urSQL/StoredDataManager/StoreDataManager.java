@@ -387,7 +387,7 @@ public class StoreDataManager {
 	 * @param vec Vector qeu contiene los tipos y datos a 
 	 * insertar en la tabla.
 	 */
-	public void insertRow(TableMetadata metadata, String[] data){
+	public void insertRow(TableMetadata metadata,LinkedList<String> data){
 		//se verifica que exista la carpeta de bases de datos
 		File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
 		//nombre de la tabla
@@ -420,9 +420,9 @@ public class StoreDataManager {
 						byte[] b_pk_index = tree.get(PK_INDEX);
 						int pk_index = (int)ByteBuffer.wrap(b_pk_index).getShort();
 						
-						String key = data[pk_index];
+						String key = data.get(pk_index);
 						
-						if(metadata.getTableColumns().size() != data.length){
+						if(metadata.getTableColumns().size() != data.size()){
 							System.err.format("La fila debe tener %d columnas \n", metadata.getTableColumns().size());
 						}
 						//si cumple con la cantidad de columnas
@@ -483,15 +483,16 @@ public class StoreDataManager {
 	 * 
 	 * @return Vector de {@link Pair<{@link String},{@link String}>}
 	 */
-	private Vector<Pair<String, String>> convert2vec(LinkedList<TableAttribute> linkedList, String[] data){
+	private Vector<Pair<String, String>> convert2vec(LinkedList<TableAttribute> linkedList, 
+			LinkedList<String> data){
 		//crea el nuevo vector
 		Vector<Pair<String, String>> result = new Vector<Pair<String, String>>();
 		//iterator de la lista
 		Iterator<TableAttribute> iterator = linkedList.iterator();
 		//empareja tipo con el dato
-		for (int i = 0; i < data.length && iterator.hasNext(); i++) {
+		for (int i = 0; i < data.size() && iterator.hasNext(); i++) {
 			TableAttribute tatt = iterator.next();
-			Pair<String, String> tmp = new Pair<String,String>(tatt.getType(), data[i]);
+			Pair<String, String> tmp = new Pair<String,String>(tatt.getType(), data.get(i));
 			result.addElement(tmp);
 		}
 		//retorna un vector de pares

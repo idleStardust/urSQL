@@ -123,8 +123,7 @@ public class RoutineDML extends Routine
 		
 		while(it.hasNext())
 		{
-		//	sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
-		//			pResultSet.getTableMetadata(), pResultSet.getTableData().getData().toArray((new String[tmp.getRegister().size()])));
+			//sDm.insertRow();
 		}
 		return null;
 	}
