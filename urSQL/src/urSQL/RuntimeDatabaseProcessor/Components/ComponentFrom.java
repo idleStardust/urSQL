@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
+import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
 import urSQL.System.TableRegister;
@@ -37,6 +38,21 @@ public class ComponentFrom implements Component
 		this._JoinTables = pJoinTables;
 	}
 	
+	public static void main(String[] args) 
+	{
+		StoreDataManager s = new StoreDataManager();
+		//s.createDatabase("Conchitas_Buenas");
+		s.setDatabase("Conchitas_Buenas");
+		TableAttribute a1 = new TableAttribute("Puta", TableAttribute.TYPE_CHAR);
+		TableAttribute a2 = new TableAttribute("Culo", TableAttribute.TYPE_CHAR);
+		TableMetadata m = new TableMetadata("Ojetes", a1);
+		m.getTableColumns().add(a1);
+		m.getTableColumns().add(a2);
+		//s.createTable(m);
+		ComponentFrom j = new ComponentFrom("Ojetes", null);
+		j.apply(null);
+	}
+	
 	@Override
 	/**
 	 * @see urSQL.RuntimeDatabaseProcessor.Components.Component#apply(urSQL.System.ResultSet)
@@ -54,7 +70,8 @@ public class ComponentFrom implements Component
 		TableData tableData = new TableData();
 		
 		// Charge The Crude Data From The Hard Disk
-		LinkedList< LinkedList <String> > crudeData = storedDataManager.getTable("CURRENT_SCHEMA", this._TableName);
+		LinkedList< LinkedList <String> > crudeData = storedDataManager.getTable(
+				SystemCatalog.getInstance().getCurrentDatabase(), this._TableName);
 		
 		// Iterator For The Charged Crude Data.
 		Iterator< LinkedList <String> > it = crudeData.iterator();
