@@ -36,21 +36,31 @@ public class ComponentJoin
 	{
 		
 		ResultSet resultSetFinal = pResultSet;
-		ResultSet resultSetTemp;
+		ResultSet resultSetTemp = null;
 		Iterator< String > tablesToJoinIterator = this._TablesToJoin.iterator();
 		
 		while( tablesToJoinIterator.hasNext() )
 		{
 			//resultSetTemp = new ResultSet(tablesToJoinIterator.next());
-			resultSetFinal = this.crossTable(resultSetFinal, resultSetFinal);
-		}
+			resultSetFinal = this.crossResultSet(resultSetTemp, resultSetFinal);
+		} 
 		return pResultSet;
+	}
+	
+	protected ResultSet crossResultSet(ResultSet pResultSet, ResultSet pAnotherResultSet)
+	{
+		TableMetadata newMetadata = this.crossMetadata(pResultSet.getTableMetadata(), 
+				pAnotherResultSet.getTableMetadata());
+		
+		TableData newData = this.crossTable(pResultSet, pAnotherResultSet);
+		
+		return(new ResultSet(newData, newMetadata));
 	}
 	
 	/**
 	 *
 	 */
-	private ResultSet crossTable(ResultSet pTable, ResultSet pAnotherTable)
+	protected TableData crossTable(ResultSet pTable, ResultSet pAnotherTable)
 	{
 		// Name of PK.
 		String PKName1 = pTable.getTableMetadata().getPrimaryKey().getName();
@@ -60,32 +70,18 @@ public class ComponentJoin
 		int indexOfPrimaryKey1 = pTable.getTableMetadata().indexByName(PKName1);
 		int indexOfPrimaryKey2 = pTable.getTableMetadata().indexByName(PKName2);
 		
-		// Temporal Values
-		TableRegister regTemp = null;
-		TableData dataTemp = new TableData();
-		Iterator< TableRegister > regIterator = pAnotherTable.getTableData().getData().iterator();
-		Iterator< TableRegister > viewIterator = pTable.getTableData().getData().iterator();
-		while(regIterator.hasNext())
-		{
-			regTemp = regIterator.next();
-			while(viewIterator.hasNext())
-			{
-				if(regTemp.getRegister().get(indexOfPrimaryKey2).equals
-				(viewIterator.next().getRegister().get(indexOfPrimaryKey1)))
-				{
-					dataTemp.getData().add(regTemp);
-					break;
-				}
-			}
-		}
+		// Merge the METADATA of the table's.
+		TableMetadata newMetadata = this.crossMetadata(pTable.getTableMetadata(),
+				                                       pTable.getTableMetadata());
+		TableData newTable1;
+		TableData newTable2;
+		TableData newData = null;// = addTable(newTable1, newTable2);
 		
-		// Aggregated TableData
-		LinkedList< TableRegister > newData = dataTemp.addTableData(pTable.getTableData());
-		
-		return (new ResultSet(new TableData(newData), null ));
+		return (newData);
 	}
 	
-	protected TableData conjuntionTableData()
+	protected TableData conjuntionTableData(TableData pTable, TableData pAnotherTable,
+			                                int pViewIndex, int pViewerIndex)
 	{
 		return null;
 	}
