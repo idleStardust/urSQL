@@ -187,7 +187,19 @@ public class ResultSet
 	
 	public ResultSet addResultSet(ResultSet pResultSet)
 	{
-		return null;	
+		Iterator< TableRegister > regIterator = 
+				pResultSet._TableData.getData().iterator();
+		Iterator< TableAttribute > attIterator = 
+				pResultSet._TableMetadata.getTableColumns().iterator();
+		
+		TableData newData = this._TableData;
+		TableMetadata newMeta = this._TableMetadata;
+		// Add the data of the 
+		while(regIterator.hasNext())
+			newData.getData().add(regIterator.next());
+		while(attIterator.hasNext())
+			newMeta.getTableColumns().add(attIterator.next());
+		return(new ResultSet(newData, newMeta));
 	}
 	
 }
