@@ -41,26 +41,34 @@ public class ComponentSet implements Component
 	 */
 	public ResultSet apply(ResultSet pResultSet) 
 	{
-		// Search Index Of Column
+		// TableData.
+		TableData tableData = new TableData();
+		
+		// TableMetadata.
+		TableMetadata tableMetadata = pResultSet.getTableMetadata();
+		
+		// Register Of the database.
+		TableRegister tmp = null;
+				
+		// Search Index Of Column.
 		int indexOfColumn = 
 				pResultSet.getTableMetadata().indexByName(this._ColumnName);
 		
-		// TableData
-		TableData tableData = new TableData();
-		
-		// Modify Value
+		// Iterator for the the all registers.
 		Iterator< TableRegister > regIterator = 
 				pResultSet.getTableData().getData().iterator();
-		TableRegister tmp = null;
-		while ( regIterator.hasNext() )
+		
+		// Iterate all the registers.
+		while (regIterator.hasNext())
 		{
 			tmp = regIterator.next();
+			
+			// Modify the Column Of the list.
 			tmp.getRegister().set(indexOfColumn, this._NewValue);
+			
+			// Add to the new TableData.
 			tableData.getData().add(tmp);
 		}
-		
-		// TableMetadata
-		TableMetadata tableMetadata = pResultSet.getTableMetadata();
 		
 		return (new ResultSet(tableData, tableMetadata));
 	}

@@ -1,8 +1,12 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
+import java.util.Iterator;
+
 import urSQL.System.ResultSet;
+import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
+import urSQL.System.TableRegister;
 
 public class ComponentWhere implements Component
 {
@@ -32,12 +36,39 @@ public class ComponentWhere implements Component
 	@Override
 	public ResultSet apply(ResultSet pResultSet) 
 	{
+		// TableData.
+		TableData tableData = new TableData();
+		
+		// TableMetadata.
+		TableMetadata tableMetadata = pResultSet.getTableMetadata();
+		
+		// Search Index Of Column.
 		int indexOfColumn = 
 				pResultSet.getTableMetadata().indexByName(this._ColumnName);
-		//
-		TableData tableData = new TableData();
-		TableMetadata tableMetadata = pResultSet.getTableMetadata();
+		
+		// Current Info of the column to iterate.
+		TableAttribute currentAttribute = tableMetadata.getTableColumns().get(indexOfColumn);
+		
+		// Register Of the database.
+		TableRegister tmp = null;
+		
+		// Iterator for the the all registers.
+		Iterator< TableRegister > regIterator = 
+				pResultSet.getTableData().getData().iterator();
+		
+		// Iterate all the registers.
+		while (regIterator.hasNext())
+		{
+			tmp = regIterator.next();
+			
+			if(TableRegister.comparate(tmp.getRegister().get(indexOfColumn), 
+					this._ComparisonOperator, this._Value, currentAttribute.getType()))
+			{
+				// Add the column that accomplish with the criteria.
+				tableData.getData().add(tmp);	
+			}
+		}
+		
 		return (new ResultSet(tableData, tableMetadata));
 	}
-	
 }
