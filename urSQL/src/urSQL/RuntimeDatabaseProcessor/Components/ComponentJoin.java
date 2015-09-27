@@ -52,11 +52,11 @@ public class ComponentJoin
 	 */
 	private ResultSet crossTable(ResultSet pTable, ResultSet pAnotherTable)
 	{
-		// Name of PK
+		// Name of PK.
 		String PKName1 = pTable.getTableMetadata().getPrimaryKey().getName();
 		String PKName2 = pAnotherTable.getTableMetadata().getPrimaryKey().getName();
 		
-		// Index of PK
+		// Position of PK in the data structure.
 		int indexOfPrimaryKey1 = pTable.getTableMetadata().indexByName(PKName1);
 		int indexOfPrimaryKey2 = pTable.getTableMetadata().indexByName(PKName2);
 		
@@ -81,7 +81,52 @@ public class ComponentJoin
 		
 		// Aggregated TableData
 		LinkedList< TableRegister > newData = dataTemp.addTableData(pTable.getTableData());
-		LinkedList< TableAttribute > newMeta = pTable.getTableMetadata().addMetadata(pAnotherTable.getTableMetadata());
-		return (new ResultSet(new TableData(newData), new TableMetadata(newMeta) ));
+		
+		return (new ResultSet(new TableData(newData), null ));
+	}
+	
+	protected TableData conjuntionTableData()
+	{
+		return null;
+	}
+	
+	protected TableMetadata crossMetadata(TableMetadata pMetadata, TableMetadata pAnotherMetadata)
+	{
+		// New Primary Key Is The Primary Key Of The First Metadata
+		TableAttribute newPK = new TableAttribute(
+				pMetadata.getTableName() + "." + pMetadata.getPrimaryKey().getName(),
+				pMetadata.getPrimaryKey().getType());
+		
+		// Create Simple Info About The New Metadata Created
+		TableMetadata newMetadata = new TableMetadata(pMetadata.getTableName() + "." 
+		              + pAnotherMetadata.getTableName(), newPK);
+		
+		// Iterators for TableMetadata's
+		Iterator< TableAttribute > iteratorMeta = pMetadata.getTableColumns().iterator();
+		Iterator< TableAttribute > iteratorAnotherMeta = pAnotherMetadata.getTableColumns().iterator();
+		
+		// Temporal for adding from the used METADATA's
+		TableAttribute tmpAddAttribute = new TableAttribute("", "");
+		TableAttribute tmpViewAttribute = null;
+		
+		// Get The METADATA complete information of each attribute
+		// TableName.AttributeName
+		while(iteratorMeta.hasNext())
+		{
+			tmpViewAttribute = iteratorMeta.next();
+			tmpAddAttribute.setName(pMetadata.getTableName() + "." + tmpViewAttribute.getName());
+			tmpAddAttribute.setType(tmpViewAttribute.getType());
+			newMetadata.getTableColumns().add(tmpAddAttribute);
+			
+		}
+		while(iteratorAnotherMeta.hasNext())
+		{
+			tmpViewAttribute = iteratorAnotherMeta.next();
+			tmpAddAttribute.setName(pAnotherMetadata.getTableName() + "." + tmpViewAttribute.getName());
+			tmpAddAttribute.setType(tmpViewAttribute.getType());
+			newMetadata.getTableColumns().add(tmpAddAttribute);
+		}
+		
+		return (newMetadata);
 	}
 }

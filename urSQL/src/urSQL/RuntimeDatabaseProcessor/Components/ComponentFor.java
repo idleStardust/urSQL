@@ -1,6 +1,7 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.System.ResultSet;
+import urSQL.System.Serializer;
 import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
@@ -70,7 +71,8 @@ public class ComponentFor implements Component
 	 */
 	public String convertToXML(ResultSet pResultSet)
 	{
-		return "helloBitchImXML";
+		Serializer d = new Serializer(pResultSet);
+		return "HelloImXML";
 	}
 	
 	/**

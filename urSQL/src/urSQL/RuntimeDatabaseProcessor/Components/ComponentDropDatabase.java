@@ -9,7 +9,8 @@ public class ComponentDropDatabase implements Component {
 	String database_name;
 	
 	@Override
-	public ResultSet apply(ResultSet pResultSet) {
+	public ResultSet apply(ResultSet pResultSet) 
+	{
 		// TODO Auto-generated method stub
 		
 		StoreDataManager sdm = new StoreDataManager();
@@ -21,7 +22,8 @@ public class ComponentDropDatabase implements Component {
 		return null;
 	}
 	
-	public void ComponentDropDatabase(String pDatabase_name){
+	public void ComponentDropDatabase(String pDatabase_name)
+	{
 		database_name = pDatabase_name;
 	}
 

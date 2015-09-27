@@ -53,7 +53,6 @@ public class RoutineDLL extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		
 		return runPlan();
 	}
 
