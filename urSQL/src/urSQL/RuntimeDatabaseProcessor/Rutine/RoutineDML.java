@@ -123,7 +123,8 @@ public class RoutineDML extends Routine
 		
 		while(it.hasNext())
 		{
-			//sDm.insertRow();
+			
+			sDm.insertRow(pResultSet.getTableMetadata(), it.next().getRegister());
 		}
 		return null;
 	}
@@ -166,13 +167,13 @@ public class RoutineDML extends Routine
 		// Iterator for the Registers
 		Iterator< TableRegister > it = pResultSet.getTableData().getData().iterator();
 		
-		// Temporal TableRegister
-		TableRegister tmp = null;
-		
-		
-		while(it.hasNext())
-		{
-			tmp = it.next();
+		//actualiza registros
+		while(it.hasNext()){
+			LinkedList<String> register = it.next().getRegister();
+			
+			String pk = register.get(pkIndex);
+			
+			sDm.updateRegister(tableName, pk, register);
 		}
 		return null;
 	}

@@ -965,7 +965,7 @@ public class StoreDataManager {
 	 * 
 	 * @param data nueva informaci�n de que se va a escribir
 	 */
-	public void updateRegister(String database_name, String table_name, String key, LinkedList<String> data){
+	public void updateRegister(String table_name, String key, LinkedList<String> data){
 		//se verifica que exista la carpeta de bases de datos
 				File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
 				//si el no existe la base de datos
