@@ -73,17 +73,29 @@ public class ComponentJoin
 		// Merge the METADATA of the table's.
 		TableMetadata newMetadata = this.crossMetadata(pTable.getTableMetadata(),
 				                                       pTable.getTableMetadata());
-		TableData newTable1;
-		TableData newTable2;
-		TableData newData = null;// = addTable(newTable1, newTable2);
+		TableData newTable1 = null;
+		TableData newTable2 = null;
 		
+		// New Data can be obtain adding the two register tables.
+		TableData newData = conjuntionTableData(newTable1, newTable2);		
 		return (newData);
 	}
 	
-	protected TableData conjuntionTableData(TableData pTable, TableData pAnotherTable,
-			                                int pViewIndex, int pViewerIndex)
+	protected TableData conjuntionTableData(TableData pTable, TableData pAnotherTable)
 	{
-		return null;
+		TableData nuevaData = new TableData();
+		Iterator< TableRegister > iterator = null; 
+		iterator = pTable.getData().iterator();
+		while(iterator.hasNext())
+		{
+			nuevaData.getData().add(iterator.next());
+		}
+		iterator = pAnotherTable.getData().iterator();
+		while(iterator.hasNext())
+		{
+			nuevaData.getData().add(iterator.next());
+		}
+		return nuevaData;
 	}
 	
 	protected TableMetadata crossMetadata(TableMetadata pMetadata, TableMetadata pAnotherMetadata)
