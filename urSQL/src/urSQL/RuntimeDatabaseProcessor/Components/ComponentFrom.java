@@ -1,9 +1,11 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
 import urSQL.System.TableData;
+import urSQL.System.TableRegister;
 import urSQL.SystemCatalog.SystemCatalog;
 
 /**
@@ -40,10 +42,17 @@ public class ComponentFrom implements Component
 	 */
 	public ResultSet apply(ResultSet pResultSet) 
 	{
+		
+		// Carga de la la tabla	
+		return null;
+	}
+	
+	private ResultSet loadTable(String pTableName)
+	{
 		// Recuperar la tabla del StoreDataManager.
 		StoreDataManager sdm = new StoreDataManager();
-		LinkedList< LinkedList< String > > tableData = sdm.getTable(SystemCatalog.getInstance().getCurrentDatabase(), this._TableName);
-		// Carga de la la tabla	
+		LinkedList<LinkedList<String>> tableInfo =  sdm.getTable(SystemCatalog.getInstance().getCurrentDatabase(), pTableName);
+		TableData tableData = new TableData();
 		return null;
 	}
 }
