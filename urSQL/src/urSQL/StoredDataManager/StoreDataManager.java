@@ -965,7 +965,7 @@ public class StoreDataManager {
 	 * 
 	 * @param data nueva informaciï¿½n de que se va a escribir
 	 */
-	public void updateRegister(String database_name, String table_name, String key, String[] data){
+	public void updateRegister(String database_name, String table_name, String key, LinkedList<String> data){
 		//se verifica que exista la carpeta de bases de datos
 				File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
 				//si el no existe la base de datos
@@ -1004,7 +1004,7 @@ public class StoreDataManager {
 									byte[] b_pk_index = tree.get(PK_INDEX);
 									int pk_index = (int)ByteBuffer.wrap(b_pk_index).getShort();
 									
-									String tmp_key = data[pk_index];
+									String tmp_key = data.get(pk_index);
 									if(key.compareTo(tmp_key)!=0){
 										System.err.format("Se quiere actualizar un registro con llave %s\n"
 												+ "diferente a la llave del registro anterior %s\n", key, tmp_key);
@@ -1047,7 +1047,7 @@ public class StoreDataManager {
 	 * 
 	 * @return Vector que contiene llaves e informaciï¿½n.
 	 */
-	private Vector<Pair<String,String>> readMetadata(byte[] metadata, String[] data){
+	private Vector<Pair<String,String>> readMetadata(byte[] metadata, LinkedList<String> data){
 		//vector con pares de tipo e informacion
 		Vector<Pair<String, String>> result = new Vector<Pair<String, String>>();
 		//tamaï¿½o del registro
@@ -1060,7 +1060,7 @@ public class StoreDataManager {
 		int data_index = 0;
 		
 		while(index < metadata.length){
-			//se toma el tamaï¿½o
+			//se toma el tamaño
 			length = (int)ByteBuffer.wrap(metadata).getShort(index);
 			//por cada tipo se hace cambia el tipo
 			switch(metadata[index+2]){
@@ -1090,7 +1090,7 @@ public class StoreDataManager {
 					break;
 			}
 			
-			Pair<String, String> tmp_par = new Pair<String, String>(type, data[data_index]);
+			Pair<String, String> tmp_par = new Pair<String, String>(type, data.get(data_index));
 			result.addElement(tmp_par);
 			
 			index = index + 3 + length;

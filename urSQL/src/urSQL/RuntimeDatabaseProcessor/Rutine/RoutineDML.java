@@ -173,8 +173,6 @@ public class RoutineDML extends Routine
 		while(it.hasNext())
 		{
 			tmp = it.next();
-			sDm.updateRegister(SystemCatalog.getInstance().getCurrentDatabase(), 
-					tableName, tmp.getRegister().get(pkIndex), tmp.getRegister().toArray(new String[tmp.getRegister().size()]));
 		}
 		return null;
 	}
