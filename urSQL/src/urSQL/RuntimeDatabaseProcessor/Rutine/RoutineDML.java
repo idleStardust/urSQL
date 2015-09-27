@@ -2,7 +2,7 @@ package urSQL.RuntimeDatabaseProcessor.Rutine;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import urSQL.RuntimeDatabaseProcessor.ReferencialIntegrityManager;
+import urSQL.RuntimeDatabaseProcessor.DataIntegrityManager;
 import urSQL.RuntimeDatabaseProcessor.Components.Component;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
@@ -58,35 +58,57 @@ public class RoutineDML extends Routine
 		ResultSet resultPartial = this.runPlan();
 	
 		// Final response to the queried
-		ResultSet resultFinalExtreme;
+		ResultSet resultFinalExtreme = null;
 		
-		// Data Review
-		ReferencialIntegrityManager referencialIM = new ReferencialIntegrityManager();
-		//referencialIM.makeReview(resultPartial);
-		
+		// Instruction for a Delete Routine
+		// Deletes from a TableData 
 		if(this._Command.equalsIgnoreCase(CONSTANT_DELETE))
 		{
+			// Data Review
+			DataIntegrityManager referencialIM = new DataIntegrityManager();
+						
 			// Data Execution
 			this.deleteRows(resultPartial);
+			//referencialIM.makeReview(resultPartial);
+			
 		}
 		
+		// Instruction for a Delete Routine
+		// Deletes from a TableData 
 		if(this._Command.equalsIgnoreCase(CONSTANT_INSERT))
 		{
+			// Data Review
+			DataIntegrityManager referencialIM = new DataIntegrityManager();
+			//referencialIM.makeReview(resultPartial);
+
 			// Data Execution
-			this.insertRows(resultPartial);
+			this.insertRows(resultPartial);			
 		}
 		
+		// Instruction for a Delete Routine
+		// Deletes from a TableData 
 		if(this._Command.equalsIgnoreCase(CONSTANT_SET))
 		{
+			// Data Review
+			DataIntegrityManager referencialIM = new DataIntegrityManager();
+			//referencialIM.makeReview(resultPartial);
+
 			// Data Execution
-			this.updateRows(resultPartial);
+			this.updateRows(resultPartial);			
 		}
 		
+		// Instruction for a Delete Routine
+		// Deletes from a TableData 
 		if(this._Command.equalsIgnoreCase(CONSTANT_SELECT))
 		{
 			resultFinalExtreme = resultPartial;
 		}
-		return (null);
+		
+		else
+		{
+			resultFinalExtreme = null;
+		}
+		return (resultFinalExtreme);
 	}
 	
 	private ResultSet insertRows(ResultSet pResultSet)
@@ -101,8 +123,8 @@ public class RoutineDML extends Routine
 		
 		while(it.hasNext())
 		{
-			//sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
-			//		pResultSet.getTableMetadata(), tmp.getRegister().toArray(new String[pResultSet.getTableData().getData().getRegister().size()]));
+		//	sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
+		//			pResultSet.getTableMetadata(), pResultSet.getTableData().getData().toArray((new String[tmp.getRegister().size()])));
 		}
 		return null;
 	}
