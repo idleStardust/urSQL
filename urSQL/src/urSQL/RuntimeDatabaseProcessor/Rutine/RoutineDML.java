@@ -2,6 +2,7 @@ package urSQL.RuntimeDatabaseProcessor.Rutine;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import urSQL.RuntimeDatabaseProcessor.ReferencialIntegrityManager;
 import urSQL.RuntimeDatabaseProcessor.Components.Component;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
@@ -52,16 +53,15 @@ public class RoutineDML extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		// Resultado brindado por el Rountime Database Processor
+		// Final response to the queried
 		ResultSet resultPartial = null;
 		
-		// Resultado brindado por el Rountime Database Processor
-		ResultSet resultFinalExtreme = null;
+		// Plan Execution - Relational Algebra
+		ResultSet resultFinalExtreme = this.runPlan();
 		
 		// Data Review
-		
-		// Plan Execution
-		resultPartial = this.runPlan();
+		ReferencialIntegrityManager referencialIM = new ReferencialIntegrityManager();
+		//referencialIM.makeReview(resultPartial);
 		
 		if(this._Command.equalsIgnoreCase(CONSTANT_DELETE))
 		{
