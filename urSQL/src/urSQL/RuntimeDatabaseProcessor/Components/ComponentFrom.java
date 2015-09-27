@@ -69,6 +69,6 @@ public class ComponentFrom implements Component
 	
 	private TableMetadata getTableMetadata()
 	{
-		return null;
+		return (SystemCatalog.getInstance().getMetadata(this._TableName));
 	}
 }
