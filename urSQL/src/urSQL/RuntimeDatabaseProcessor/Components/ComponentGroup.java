@@ -1,10 +1,8 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import urSQL.System.ResultSet;
-import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
 import urSQL.System.TableRegister;

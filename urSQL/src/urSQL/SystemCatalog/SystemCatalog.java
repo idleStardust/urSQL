@@ -1,6 +1,4 @@
 package urSQL.SystemCatalog;
-
-import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
 
 public class SystemCatalog 

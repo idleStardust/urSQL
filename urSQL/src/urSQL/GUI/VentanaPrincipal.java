@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -25,11 +26,16 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JLayeredPane;
 import javax.swing.ImageIcon;
+import java.awt.Canvas;
 import java.awt.SystemColor;
 import java.awt.Component;
+import javax.swing.Box;
+import java.awt.FlowLayout;
 import javax.swing.JTree;
 import javax.swing.JTable;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import urSQL.QueryProcessor.QueryProcessor;
@@ -64,6 +70,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	    private JPopupMenu menuEmergente;
 	    private JMenuItem itemEmergente1,itemEmergente2;
 	    
+	    QueryProcessor q_proc;
 	    String texto;
 	    JFileChooser fileChooser;
 	    
@@ -90,7 +97,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		private JScrollPane scrollPane_1;
 		String bebe[][][]={{{"Base de Datos1"}},{ {"Tabla"},{"nom_col1","nom_col2"},{"noref1","nom_ref2"},{"nom_con1","nom_con2"}},{ {"Tabla2"},{"nom_col1","nom_col2"},{"noref1","nom_ref2"},{"nom_con1","nom_con2"}}};
 				
-		 public void esquemaTree(DynamicTree treePanel,String bebe[][][]) {
+		public void esquemaTree(DynamicTree treePanel,String bebe[][][]) {
 				
 				String p0Name = new String(bebe[0][0][0]);
 				DefaultMutableTreeNode p1, p2,p3, p4,p0;
@@ -145,6 +152,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			setLocationRelativeTo(null);
 			/*impide que la ventana cambie de tama�o*/
 			setResizable(false);
+			this.q_proc = new QueryProcessor();
 		}
 
 		private void iniciarComponentes() {
@@ -158,7 +166,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			miPanel = new JPanel();
 			
 			miPanel.setForeground(new Color(0, 0, 0));
-			miPanel.setBackground(new Color(123, 104, 238));
+			miPanel.setBackground(new Color(176, 224, 230));
 			miPanel.setLayout(null);
 			barraMenu = new JMenuBar();
 	        menuArchivo = new JMenu();
@@ -286,7 +294,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        
 	        areaDeTexto = new JTextArea();
 	        scrollPane.setViewportView(areaDeTexto);
-	        areaDeTexto.setBackground(new Color(72, 61, 139));
+	        areaDeTexto.setBackground(new Color(224, 255, 255));
 	        
 	        JLabel lblQueryProcessor = new JLabel("                                                            Query Processor");
 	        lblQueryProcessor.setForeground(new Color(0, 0, 0));
@@ -295,13 +303,13 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        
 	        JSeparator separator = new JSeparator();
 	        separator.setForeground(new Color(0, 0, 128));
-	        separator.setBackground(new Color(70, 130, 180));
+	        separator.setBackground(new Color(224, 255, 255));
 	        separator.setBounds(26, 11, 686, 16);
 	        miPanel.add(separator);
 	        
 	        JSeparator separator_1 = new JSeparator();
 	        separator_1.setForeground(new Color(0, 0, 128));
-	        separator_1.setBackground(new Color(70, 130, 180));
+	        separator_1.setBackground(new Color(224, 255, 255));
 	        separator_1.setBounds(26, 61, 686, 16);
 	        miPanel.add(separator_1);
 	        
@@ -320,7 +328,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        scrollPane_3.setRowHeaderView(labelEdicionSeleccionado);
 	        
 	        JTextArea textArea = new JTextArea();
-	        textArea.setBackground(new Color(72, 61, 139));
+	        textArea.setBackground(new Color(224, 255, 255));
 	        scrollPane_3.setViewportView(textArea);
 	        
 	        
@@ -355,7 +363,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        miPanel.add(scrollPane_1);
 	        
 	        table= new JTable(Matriz,columnas);
-	        table.setBackground(new Color(186, 85, 211));
+	        table.setBackground(new Color(135, 206, 250));
 	        scrollPane_1.setViewportView(table);
 	        
 	        
@@ -394,10 +402,9 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			}
 			if (evento.getSource()==botontabla)
 			{
-				String sql = areaDeTexto.getText();
-				QueryProcessor q_proc = new QueryProcessor(sql);
+				this.q_proc.setQuery(areaDeTexto.getText());
 				try {
-					q_proc.execute();
+					this.q_proc.execute();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -1,6 +1,9 @@
 package urSQL.System;
 
 import java.util.Iterator;
+import java.util.LinkedList;
+
+import javax.xml.crypto.Data;
 
 /**
  * ResultSet is a object that contains the data of the table 
@@ -40,6 +43,17 @@ public class ResultSet
 	public ResultSet(TableMetadata pTableMetadata)
 	{
 		this(new TableData() ,pTableMetadata);
+	}
+	
+	public ResultSet(LinkedList<String> pColumnNames, TableRegister pValues, String pType)
+	{
+		Iterator<String> attIterator = pColumnNames.iterator();
+		while(attIterator.hasNext())
+		{
+			this._TableMetadata.getTableColumns().
+			add(new TableAttribute(attIterator.next(), pType));
+			this._TableData.getData().add(pValues);
+		}		
 	}
 	
 	/**
@@ -169,6 +183,11 @@ public class ResultSet
 	{
 		return (this._TableData._Data.get(current_index)
 				.getRegister().get(colIndex));
+	}
+	
+	public ResultSet addResultSet(ResultSet pResultSet)
+	{
+		return null;	
 	}
 	
 }

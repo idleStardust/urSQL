@@ -2,7 +2,6 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 
 import java.util.Iterator;
 import java.util.LinkedList;
-
 import urSQL.System.ResultSet;
 import urSQL.System.TableData;
 
@@ -34,7 +33,6 @@ public class ComponentJoin
 	{
 		
 		ResultSet resultSetFinal = pResultSet;
-		@SuppressWarnings("unused")
 		ResultSet resultSetTemp;
 		Iterator< String > tablesToJoinIterator = this._TablesToJoin.iterator();
 		
@@ -51,9 +49,16 @@ public class ComponentJoin
 	 */
 	private ResultSet crossTable(ResultSet pTable, ResultSet pAnotherTable)
 	{
+		String PKName1 = pTable.getTableMetadata().getPrimaryKey().getName();
+		String PKName2 = pAnotherTable.getTableMetadata().getPrimaryKey().getName();
+		int indexOfPrimaryKey1 = pTable.getTableMetadata().indexByName(PKName1);
+		int indexOfPrimaryKey2 = pTable.getTableMetadata().indexByName(PKName2);
+		
+		TableData data1 = pTable.getTableData();
+		TableData data2 = pTable.getTableData();
 		// Primary Keys most be equal
-		TableData propertyData = pTable.getTableData();
-		TableData anotherData = pAnotherTable.getTableData();
+		// TableData propertyData = pTable.getTableData();
+		// TableData anotherData = pAnotherTable.getTableData();
 		return null;
 	}
 }

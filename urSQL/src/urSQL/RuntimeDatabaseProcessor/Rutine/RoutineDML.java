@@ -37,6 +37,14 @@ public class RoutineDML extends Routine
 		super(pCommand, pComponents);
 	}
 
+	/**
+	 * 
+	 */
+	public RoutineDML(String pCommand) 
+	{
+		super(pCommand, new LinkedList<>());
+	}
+	
 	@Override
 	public ResultSet execute() 
 	{
