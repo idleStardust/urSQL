@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Iterator;
 import java.util.Vector;
 
 import urSQL.StoredDataManager.BplusJ.*;
@@ -298,7 +297,7 @@ public class StoreDataManager {
 	 * 
 	 * @param metadata informaci�n que uno le importa 
 	 * 
-	 * @return byte[]con el arraylist
+	 * @return byte[]con el LinkedList
 	 */
 	private byte[] writeMetadata(TableMetadata metadata){
 		//se saca un iterador de la lista de atributos
@@ -757,17 +756,17 @@ public class StoreDataManager {
 	}
 	
 	/**
-	 * Retorna todos los datos de la tabla, en forma de ArrayList de ArrayList
+	 * Retorna todos los datos de la tabla, en forma de LinkedList de LinkedList
 	 * 
 	 * @param database_name nombre de la base de datos 
 	 * 
 	 * @param table_name nombre de la tabla
 	 * 
-	 * @return ArrayList de ArrayList que representa la tabla
+	 * @return LinkedList de LinkedList que representa la tabla
 	 */
-	public ArrayList<ArrayList<String>> getTable(String database_name, String table_name){
+	public LinkedList<LinkedList<String>> getTable(String database_name, String table_name){
 		//tabla resultante
-		ArrayList<ArrayList<String>> table = new ArrayList<ArrayList<String>>();
+		LinkedList<LinkedList<String>> table = new LinkedList<LinkedList<String>>();
 		//archivo de la base de datos o esquema
 		File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
 		//si no existe el archivo
@@ -805,7 +804,7 @@ public class StoreDataManager {
 							//registro en bytes
 							byte[] tmp_register = tree.get(tmp_key);
 							//se crea la fila
-							ArrayList<String> tmp_row = byteArray2List(tmp_register);
+							LinkedList<String> tmp_row = byteArray2List(tmp_register);
 							//se agrega la fila
 							table.add(tmp_row);
 							//se cambia a la proxima llave
@@ -835,11 +834,11 @@ public class StoreDataManager {
 	 * @param array arreglo de bytes que corresponde al registro de 
 	 * de la fila 
 	 * 
-	 * @return ArrayList de String que contiene los datos
+	 * @return LinkedList de String que contiene los datos
 	 */
-	private ArrayList<String> byteArray2List(byte[] array){
+	private LinkedList<String> byteArray2List(byte[] array){
 		//lista con los string 
-		ArrayList<String> result_list = new ArrayList<String>();
+		LinkedList<String> result_list = new LinkedList<String>();
 		//indice por el cual va 
 		int current_index = 0;
 		//offset de por donde se va a leer

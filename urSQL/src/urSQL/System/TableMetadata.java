@@ -17,7 +17,7 @@ public class TableMetadata
 	/**
 	 * Pair attribute name and attribute type.
 	 */
-	protected LinkedList<TableAttribute> _TableColumns;
+	protected LinkedList< TableAttribute > _TableColumns;
 	
 	/**
 	 * Unique data of the entity.

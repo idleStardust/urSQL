@@ -1,7 +1,10 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
+import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
+import urSQL.System.TableData;
+import urSQL.SystemCatalog.SystemCatalog;
 
 /**
  * 
@@ -18,14 +21,14 @@ public class ComponentFrom implements Component
 	/**
 	 * 
 	 */
-	protected ArrayList<String> _JoinTables;
+	protected LinkedList<String> _JoinTables;
 	
 	/**
 	 * 
 	 * @param pTableName
 	 * @param pJoinTables
 	 */
-	public ComponentFrom(String pTableName, ArrayList<String> pJoinTables)
+	public ComponentFrom(String pTableName, LinkedList< String > pJoinTables)
 	{
 		this._TableName = pTableName;
 		this._JoinTables = pJoinTables;
@@ -37,15 +40,10 @@ public class ComponentFrom implements Component
 	 */
 	public ResultSet apply(ResultSet pResultSet) 
 	{
-		// Recuperar la tabla del SystemCatalog.
-		
-		// Aplicar el Join, si se requiere.
-		if (this._JoinTables.isEmpty())
-		{
-			
-		}
-		
-		// Retornar Tabla.
+		// Recuperar la tabla del StoreDataManager.
+		StoreDataManager sdm = new StoreDataManager();
+		LinkedList< LinkedList< String > > tableData = sdm.getTable(SystemCatalog.getInstance().getCurrentDatabase(), this._TableName);
+		// Carga de la la tabla	
 		return null;
 	}
 }

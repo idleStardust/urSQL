@@ -8,10 +8,29 @@ package urSQL.System;
  */
 public class TableAttribute
 {
+	/**
+	 * 
+	 */
 	public static final String TYPE_CHAR = "CHAR";
+	
+	/**
+	 * 
+	 */
 	public static final String TYPE_VARCHAR = "VARCHAR";
+	
+	/**
+	 * 
+	 */
 	public static final String TYPE_INT = "INT";
+	
+	/**
+	 * 
+	 */
 	public static final String TYPE_DECIMAL = "DECIMAL";
+	
+	/**
+	 * 
+	 */
 	public static final String TYPE_DATETIME = "DATETIME";
 	
 	/**

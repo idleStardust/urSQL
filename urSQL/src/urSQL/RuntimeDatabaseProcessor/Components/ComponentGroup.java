@@ -16,11 +16,11 @@ import urSQL.System.TableRegister;
  */
 public class ComponentGroup implements Component 
 {
-	LinkedList< String > _Columns;
+	String _Column;
 	
-	public ComponentGroup(LinkedList< String > pColumnas) 
+	public ComponentGroup(String pColumna) 
 	{
-		this._Columns = pColumnas;
+		this._Column = pColumna;
 	}
 
 	@Override
@@ -31,9 +31,6 @@ public class ComponentGroup implements Component
 		
 		// TableMetadata.
 		TableMetadata tableMetadata = pResultSet.getTableMetadata();
-		
-		// Iterator for the registers of the table
-		Iterator< String > columnIterator = this._Columns.iterator();
 				
 		// Iterator for the registers of the table
 		Iterator< TableRegister > tableIterator = 
@@ -41,30 +38,39 @@ public class ComponentGroup implements Component
 		
 		Iterator< TableRegister > newtableIterator = null;
 		
-		// Temporal Index
-		int indexTemp = 0;
-		
 		// Temporal Register
 		TableRegister tmp = null;
 		TableRegister newTmp = null;
 		
-		indexTemp = pResultSet.getTableMetadata().indexByName(columnIterator.next());
-
+		// Temporal Index
+		int indexTemp = 
+				pResultSet.getTableMetadata().indexByName(this._Column);
+		
+		// Type of the column
+		String tableType = 
+				pResultSet.getTableMetadata().getTableColumns().get(indexTemp).getType();
+		
 		// Iterate for all the table
 		while( tableIterator.hasNext() )
 		{
 			tmp = tableIterator.next();
-			newTmp = newtableIterator.next();
-			if(true)
+			if (tableData.getData().isEmpty())
 			{
 				tableData.getData().add(tmp);
 			}
 			else
-			{				
+			{
 				newtableIterator = tableData.getData().iterator();
-				while( newtableIterator.hasNext() )
+				for(int x = 0; newtableIterator.hasNext(); x++)
 				{
-					break;
+					newTmp = newtableIterator.next();
+					if(TableRegister.comparate(tmp.getRegister().get(indexTemp), 
+							                   ">", 
+							                   newTmp.getRegister().get(indexTemp), 
+							                   tableType))
+					{
+						tableData.getData().add(x, tmp);
+					}
 				}
 			}
 		}

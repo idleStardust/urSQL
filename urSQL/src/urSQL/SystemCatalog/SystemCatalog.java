@@ -7,9 +7,19 @@ public class SystemCatalog
 {
     private static SystemCatalog INSTANCE = new SystemCatalog();
     
-    public String _CurrentDatabase = "";
+    public String _CurrentDatabase;
     
+    public void setCurrentDatabase(String pCurrentDatabase)
+    {
 
+    	this._CurrentDatabase = pCurrentDatabase;
+    }
+    
+    public String getCurrentDatabase()
+    {
+    	return (this._CurrentDatabase);
+    }
+    
     private SystemCatalog() 
     {
     }
