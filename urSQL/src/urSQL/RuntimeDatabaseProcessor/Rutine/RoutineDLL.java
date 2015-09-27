@@ -7,42 +7,42 @@ public class RoutineDLL extends Routine
 	/**
 	 * 
 	 */
-	public static String CONSTANT_CD = "CREATE_DATABASE";
+	public static final String CONSTANT_CD = "CREATE_DATABASE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_RD= "DROP_DATABASE";
+	public static final String CONSTANT_RD= "DROP_DATABASE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_DD = "DISPLAY_DATABASE";
+	public static final String CONSTANT_DD = "DISPLAY_DATABASE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_SD = "SET_DATABASE";
+	public static final String CONSTANT_SD = "SET_DATABASE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_CT = "CREATE_TABLE";
+	public static final  String CONSTANT_CT = "CREATE_TABLE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_AT =  "ALTER_TABLE";
+	public static final String CONSTANT_AT =  "ALTER_TABLE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_DP =  "DROP_TABLE";
+	public static final String CONSTANT_DP =  "DROP_TABLE";
 	
 	/**
 	 * 
 	 */
-	public static String CONSTANT_CI =  "CREATE_INDEX";
+	public static final String CONSTANT_CI =  "CREATE_INDEX";
 	
 	
 	public RoutineDLL(String pCommand) 
@@ -53,7 +53,8 @@ public class RoutineDLL extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		return null;
+		
+		return runPlan();
 	}
 
 }
