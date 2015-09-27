@@ -52,6 +52,7 @@ public class ComponentFrom implements Component
 		// Recuperar la tabla del StoreDataManager.
 		StoreDataManager sdm = new StoreDataManager();
 		LinkedList<LinkedList<String>> tableInfo =  sdm.getTable(SystemCatalog.getInstance().getCurrentDatabase(), pTableName);
+		
 		TableData tableData = new TableData();
 		return null;
 	}

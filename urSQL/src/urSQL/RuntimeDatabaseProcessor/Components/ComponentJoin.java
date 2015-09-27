@@ -3,7 +3,10 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 import java.util.Iterator;
 import java.util.LinkedList;
 import urSQL.System.ResultSet;
+import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
+import urSQL.System.TableMetadata;
+import urSQL.System.TableRegister;
 
 /**
  * 
@@ -49,14 +52,36 @@ public class ComponentJoin
 	 */
 	private ResultSet crossTable(ResultSet pTable, ResultSet pAnotherTable)
 	{
+		// Name of PK
 		String PKName1 = pTable.getTableMetadata().getPrimaryKey().getName();
 		String PKName2 = pAnotherTable.getTableMetadata().getPrimaryKey().getName();
+		
+		// Index of PK
 		int indexOfPrimaryKey1 = pTable.getTableMetadata().indexByName(PKName1);
 		int indexOfPrimaryKey2 = pTable.getTableMetadata().indexByName(PKName2);
 		
-		ResultSet combinedTables = pTable.addResultSet(pAnotherTable);
+		// Temporal Values
+		TableRegister regTemp = null;
+		TableData dataTemp = new TableData();
+		Iterator< TableRegister > regIterator = pAnotherTable.getTableData().getData().iterator();
+		Iterator< TableRegister > viewIterator = pTable.getTableData().getData().iterator();
+		while(regIterator.hasNext())
+		{
+			regTemp = regIterator.next();
+			while(viewIterator.hasNext())
+			{
+				if(regTemp.getRegister().get(indexOfPrimaryKey2).equals
+				(viewIterator.next().getRegister().get(indexOfPrimaryKey1)))
+				{
+					dataTemp.getData().add(regTemp);
+					break;
+				}
+			}
+		}
 		
-		
-		return null;
+		// Aggregated TableData
+		LinkedList< TableRegister > newData = dataTemp.addTableData(pTable.getTableData());
+		LinkedList< TableAttribute > newMeta = pTable.getTableMetadata().addMetadata(pAnotherTable.getTableMetadata());
+		return (new ResultSet(new TableData(newData), new TableMetadata(newMeta) ));
 	}
 }

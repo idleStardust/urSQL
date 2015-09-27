@@ -24,6 +24,20 @@ public class TableData
 		this(new LinkedList<>());
 	}
 
+	public LinkedList< TableRegister > addTableData(TableData pTData)
+	{
+		// Iterator Of TableRegister
+		Iterator< TableRegister > regIterator = pTData.getData().iterator();
+		
+		LinkedList<TableRegister> newData = _Data;
+		
+		// Add the data of the register
+		while(regIterator.hasNext())
+		{
+			newData.add(regIterator.next());
+		}
+		return newData;
+	}
 	/**
 	 * Get for the _Data (LinkedList < LinkedList < String > > ).
 	 */

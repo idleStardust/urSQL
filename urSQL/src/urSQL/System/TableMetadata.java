@@ -33,23 +33,31 @@ public class TableMetadata
 		this._TableName = pTableName;
 		this._TableColumns = pTableColumns;
 		this._PrimaryKey = pPrimaryKey;
-		
-		// Nombre A Cada Clase Con Su Table De Provenencia
-		Iterator< TableAttribute > attIterator = pTableColumns.iterator();
-		TableAttribute tmp = null;
-		while(attIterator.hasNext())
-		{
-			tmp = attIterator.next();
-			tmp.setName(pTableName + tmp.getName());
-		}
 	}
 
-	/**
-	 * 
-	 */
 	public TableMetadata(String pTableName, TableAttribute pPrimaryKey)
 	{
 		this(pTableName, new LinkedList<>(), pPrimaryKey);
+	}
+	
+	public TableMetadata(LinkedList<TableAttribute> pMeta)
+	{
+		this("", pMeta, null);
+	}
+	
+	public LinkedList< TableAttribute > addMetadata(TableMetadata pTableMetadata)
+	{
+		// Iterator Of Attributes
+		Iterator< TableAttribute > attIterator = pTableMetadata.getTableColumns().iterator();
+				
+		// Components of the new set of attributes
+		LinkedList<TableAttribute> newMeta = this._TableColumns;
+				
+		while(attIterator.hasNext())
+		{
+			newMeta.add(attIterator.next());
+		}
+		return newMeta;
 	}
 	
 	/**
