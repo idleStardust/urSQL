@@ -61,8 +61,10 @@ public class ComponentWhere implements Component
 		{
 			tmp = regIterator.next();
 			
-			if(TableRegister.comparate(tmp.getRegister().get(indexOfColumn), 
-					this._ComparisonOperator, this._Value, currentAttribute.getType()))
+			if(TableRegister.comparate(
+					tmp.getRegister().get(indexOfColumn), 
+					this._ComparisonOperator, 
+					this._Value, currentAttribute.getType()))
 			{
 				// Add the column that accomplish with the criteria.
 				tableData.getData().add(tmp);	

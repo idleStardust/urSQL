@@ -4,9 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import urSQL.StoredDataManager.BplusJ.xBplusTreeBytes;
+import urSQL.System.TableAttribute;
+import urSQL.System.TableMetadata;
 
 public class SystemCatalog 
 {
@@ -120,19 +123,11 @@ public class SystemCatalog
 	
 	private String database_name;
 	
-	private static SystemCatalog INSTANCE = new SystemCatalog();
-
-	public static SystemCatalog getInstance() 
-	{
-	        return INSTANCE;
-	 }
-	
 	/**
 	 * Crea la estructura de archivos y carpetas del
 	 * System Catalog
 	 */
-	private SystemCatalog()
-	{
+	private SystemCatalog(){
 		//verifica que exista la carpeta del System Catalog
 		File system_catalog = new File(SYSTEM_CATALOG_PATH);
 		//verifica que exista la carpeta 
@@ -174,17 +169,14 @@ public class SystemCatalog
 		}
 	}
 	
-	public String getCurrentDatabase()
-	{
-		return this.database_name;
-	}
 	/**
 	 * Se elige una base de datos para trabajar
 	 * 
 	 * @param database_name nombre de la base de 
 	 * datos
 	 */
-	public void setTable(String database_name){
+
+	public void setDatabase(String database_name){
 		File database = new File(SYSTEM_CATALOG_PATH + FILE_SEPARATOR +database_name);
 		
 		if(database.exists()){
@@ -430,7 +422,7 @@ public class SystemCatalog
 	 * 
 	 * @return arreglo de bytes que representan los valores anteriores
 	 */
-	public byte[] addReferenceAux(String column1, String table2, String column2){
+	private byte[] addReferenceAux(String column1, String table2, String column2){
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
@@ -535,6 +527,22 @@ public class SystemCatalog
 	}
 
 	/**
+	 * Get the Name Of the Actual Database
+	 * @return
+	 */
+	public String getCurrentDatabase()
+	{
+		return this.database_name;
+	}
+	
+
+    private static SystemCatalog INSTANCE = new SystemCatalog();
+    
+    public static SystemCatalog getInstance() 
+    {
+        return INSTANCE;
+    }
+	/**
 	 * Elimina una base de datos
 	 * 
 	 * @param database_name elimina una base de datos
@@ -572,7 +580,120 @@ public class SystemCatalog
     	}
     }
 
+    /**
+     * Retorna la metadata de una tabla
+     * 
+     * @param table_name nombre de la tabla 
+     * 
+     * @return metadata de una tabla
+     */
+    public TableMetadata getMetadata(String table_name){
+    	
+    	LinkedList<TableAttribute> list = new LinkedList<TableAttribute>();
+    	
+    	File database = new File(SYSTEM_CATALOG_PATH + FILE_SEPARATOR + database_name);
+    	
+    	if(!database.exists()){
+    		System.err.format("No existe la carpeta de las bases de datos");
+    	}
+    	else{
+    		//crea la tabla de la base 
+    		File table = new File(database, table_name);
+    		
+    		if(!table.exists()){
+    			System.err.format("No hay tabla %s en la base", table_name);
+    		}
+    		else{
+    			//se crea el arbol
+    			String inf_file = table_name + INFORMATION;
+    			
+    			File inf_file_tree = new File(table, inf_file + TREE_SUFIX);
+				File inf_file_blocks = new File(table, inf_file + BLOCKS_SUFFIX);
+				
+				if(!inf_file_tree.exists() || !inf_file_blocks.exists()){
+					System.err.format("Los archivos de la tabla %s estan corrompidos\n", table_name);
+				}
+				
+				else{
+					try {
+						xBplusTreeBytes tree_inf = xBplusTreeBytes.ReOpen(new RandomAccessFile(inf_file_tree, "rw"), 
+								new RandomAccessFile(inf_file_blocks, "rw"));
+						//se obtiene la primera llave del arbol
+						String key = tree_inf.NextKey(TREE_TYPE);
+						//se consigue lista de atributos
+						while(key != null){
+							TableAttribute ta = getMetadataAux(tree_inf.get(key));
+							list.add(ta);
+							key = tree_inf.NextKey(key);
+						}
+						//nombre de la columna que es llave primaria
+						String pk = new String(tree_inf.get(PK_KEY));
+						
+						int pk_index = -1;
+						
+						for(int i =0; i< list.size(); i++){
+							if(pk.compareTo(list.get(i).getName()) == 0){
+								pk_index = i;
+								break;
+							}
+						}
+						
+						TableMetadata tm = new TableMetadata(table_name, list, list.get(pk_index));
+						
+						return tm;
+						
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+				
+    		}
+    	}
+    	
+    	
+    	return null;
+    }
 
-
-
+    /**
+     * Convierte un registro en un TableAttribute 
+     * 
+     * @param register registro de bytes 
+     * @return
+     */
+    private TableAttribute getMetadataAux(byte[] register){
+    	int size = ByteBuffer.wrap(register).getShort();
+    	
+    	String name = new String(register,2,size);
+    	
+    	byte type = register[size+2];
+    	
+    	String str_type = "";
+    	
+    	switch(type){
+    		case BY_TYPE_INTEGER:
+    			str_type = TableAttribute.TYPE_INT;
+    			break;
+    		case BY_TYPE_DECIMAL:
+    			str_type = TableAttribute.TYPE_DECIMAL;
+    			break;
+    		case BY_TYPE_CHAR:
+    			str_type = TableAttribute.TYPE_CHAR;
+    			break;
+    		case BY_TYPE_VARCHAR:
+    			str_type = TableAttribute.TYPE_VARCHAR;
+    			break;
+    		case BY_TYPE_DATETIME:
+    			str_type = TableAttribute.TYPE_DATETIME;
+    			break;
+    	}
+    	
+    	return new TableAttribute(name, str_type);
+    }
+    
+    
 }

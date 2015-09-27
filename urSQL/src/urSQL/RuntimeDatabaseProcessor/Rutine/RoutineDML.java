@@ -53,11 +53,11 @@ public class RoutineDML extends Routine
 	@Override
 	public ResultSet execute() 
 	{
-		// Final response to the queried
-		ResultSet resultPartial = null;
-		
 		// Plan Execution - Relational Algebra
-		ResultSet resultFinalExtreme = this.runPlan();
+		ResultSet resultPartial = this.runPlan();
+	
+		// Final response to the queried
+		ResultSet resultFinalExtreme;
 		
 		// Data Review
 		ReferencialIntegrityManager referencialIM = new ReferencialIntegrityManager();
@@ -85,18 +85,22 @@ public class RoutineDML extends Routine
 		{
 			resultFinalExtreme = resultPartial;
 		}
-		return (resultFinalExtreme);
+		return (null);
 	}
 	
 	private ResultSet insertRows(ResultSet pResultSet)
 	{
 		// Disk Data Manager
 		StoreDataManager sDm = new StoreDataManager();
+		
 		// Iterator for the Registers
 		Iterator< TableRegister > it = pResultSet.getTableData().getData().iterator();
+		
+		
 		while(it.hasNext())
 		{
-			//sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), metadata, data);
+		//	sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
+		//			      metadata, data);
 		}
 		return null;
 	}
@@ -114,9 +118,12 @@ public class RoutineDML extends Routine
 		
 		// Iterator for the Registers
 		Iterator< TableRegister > it = pResultSet.getTableData().getData().iterator();
+		
+		
 		while(it.hasNext())
 		{
-			sDm.deleteRow(SystemCatalog.getInstance().getCurrentDatabase(), tableName, it.next().getRegister().get(pkIndex));
+			sDm.deleteRow(SystemCatalog.getInstance().getCurrentDatabase(), 
+				      tableName, it.next().getRegister().get(pkIndex));
 		}
 		return null;
 	}
@@ -127,7 +134,8 @@ public class RoutineDML extends Routine
 		String tableName = pResultSet.getTableMetadata().getTableName();
 		
 		// Primary Key Index
-		int pkIndex = pResultSet.getTableMetadata().indexByName(pResultSet.getTableMetadata().getPrimaryKey().getName());
+		int pkIndex = pResultSet.getTableMetadata().indexByName(pResultSet
+				                .getTableMetadata().getPrimaryKey().getName());
 		
 		// Disk Data Manager
 		StoreDataManager sDm = new StoreDataManager();
@@ -135,8 +143,10 @@ public class RoutineDML extends Routine
 		// Iterator for the Registers
 		Iterator< TableRegister > it = pResultSet.getTableData().getData().iterator();
 		
-		// Temp
+		// Temporal TableRegister
 		TableRegister tmp = null;
+		
+		
 		while(it.hasNext())
 		{
 			tmp = it.next();

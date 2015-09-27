@@ -2,9 +2,11 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
+import urSQL.SystemCatalog.SystemCatalog;
 
-public class ComponentDropDatabase implements Component {
+public class ComponentSetDatabase implements Component {
 
+	
 	String database_name;
 	
 	@Override
@@ -12,15 +14,13 @@ public class ComponentDropDatabase implements Component {
 		// TODO Auto-generated method stub
 		
 		StoreDataManager sdm = new StoreDataManager();
-		sdm.deleteDatabaseScheme(database_name);
-		
-		
+		sdm.setDatabase(database_name);
 		
 		return null;
 	}
-	
-	public void ComponentDropDatabase(String pDatabase_name){
-		database_name = pDatabase_name;
-	}
 
+	
+	public ComponentSetDatabase(String database_name){
+		this.database_name = database_name;
+	}
 }

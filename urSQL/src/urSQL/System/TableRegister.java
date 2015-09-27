@@ -105,7 +105,7 @@ public class TableRegister
 	
 	/**
 	 *  Get for _Register
-	 * @return
+	 * @return 
 	 */
 	public LinkedList< String > getRegister() 
 	{

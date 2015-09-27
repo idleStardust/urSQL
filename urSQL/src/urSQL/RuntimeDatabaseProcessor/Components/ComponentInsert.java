@@ -27,6 +27,7 @@ public class ComponentInsert implements Component
 	@Override
 	public ResultSet apply(ResultSet pResultSet) 
 	{
+		
 		return null;
 	}
 }

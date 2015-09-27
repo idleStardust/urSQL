@@ -108,6 +108,7 @@ public class StoreDataManager {
 		}
 	}
 	
+	
 	/**
 	 * Crea la nueva base de datos 
 	 * 
@@ -318,7 +319,7 @@ public class StoreDataManager {
 	 * 
 	 * @param metadata informaci�n que uno le importa 
 	 * 
-	 * @return byte[]con el arraylist
+	 * @return byte[]con el LinkedList
 	 */
 	private byte[] writeMetadata(TableMetadata metadata){
 		//se saca un iterador de la lista de atributos
@@ -775,13 +776,13 @@ public class StoreDataManager {
 	}
 	
 	/**
-	 * Retorna todos los datos de la tabla, en forma de ArrayList de ArrayList
+	 * Retorna todos los datos de la tabla, en forma de LinkedList de LinkedList
 	 * 
 	 * @param database_name nombre de la base de datos 
 	 * 
 	 * @param table_name nombre de la tabla
 	 * 
-	 * @return ArrayList de ArrayList que representa la tabla
+	 * @return LinkedList de LinkedList que representa la tabla
 	 */
 	public LinkedList<LinkedList<String>> getTable(String database_name, String table_name){
 		//tabla resultante
@@ -853,7 +854,7 @@ public class StoreDataManager {
 	 * @param array arreglo de bytes que corresponde al registro de 
 	 * de la fila 
 	 * 
-	 * @return ArrayList de String que contiene los datos
+	 * @return LinkedList de String que contiene los datos
 	 */
 	private LinkedList<String> byteArray2List(byte[] array){
 		//lista con los string 
