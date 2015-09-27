@@ -6,6 +6,7 @@ import urSQL.RuntimeDatabaseProcessor.ReferencialIntegrityManager;
 import urSQL.RuntimeDatabaseProcessor.Components.Component;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
+import urSQL.System.TableMetadata;
 import urSQL.System.TableRegister;
 import urSQL.SystemCatalog.SystemCatalog;
 
@@ -93,14 +94,15 @@ public class RoutineDML extends Routine
 		// Disk Data Manager
 		StoreDataManager sDm = new StoreDataManager();
 		
+		
 		// Iterator for the Registers
 		Iterator< TableRegister > it = pResultSet.getTableData().getData().iterator();
 		
 		
 		while(it.hasNext())
 		{
-		//	sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
-		//			      metadata, data);
+			//sDm.insertRow(SystemCatalog.getInstance().getCurrentDatabase(), 
+			//		pResultSet.getTableMetadata(), tmp.getRegister().toArray(new String[pResultSet.getTableData().getData().getRegister().size()]));
 		}
 		return null;
 	}
@@ -123,7 +125,7 @@ public class RoutineDML extends Routine
 		while(it.hasNext())
 		{
 			sDm.deleteRow(SystemCatalog.getInstance().getCurrentDatabase(), 
-				      tableName, it.next().getRegister().get(pkIndex));
+				          tableName, it.next().getRegister().get(pkIndex));
 		}
 		return null;
 	}

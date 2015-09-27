@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
-import urSQL.System.TableAttribute;
 import urSQL.System.TableData;
 import urSQL.System.TableMetadata;
 import urSQL.System.TableRegister;
@@ -36,21 +35,6 @@ public class ComponentFrom implements Component
 	{
 		this._TableName = pTableName;
 		this._JoinTables = pJoinTables;
-	}
-	
-	public static void main(String[] args) 
-	{
-		StoreDataManager s = new StoreDataManager();
-		//s.createDatabase("Conchitas_Buenas");
-		s.setDatabase("Conchitas_Buenas");
-		TableAttribute a1 = new TableAttribute("Puta", TableAttribute.TYPE_CHAR);
-		TableAttribute a2 = new TableAttribute("Culo", TableAttribute.TYPE_CHAR);
-		TableMetadata m = new TableMetadata("Ojetes", a1);
-		m.getTableColumns().add(a1);
-		m.getTableColumns().add(a2);
-		//s.createTable(m);
-		ComponentFrom j = new ComponentFrom("Ojetes", null);
-		j.apply(null);
 	}
 	
 	@Override
