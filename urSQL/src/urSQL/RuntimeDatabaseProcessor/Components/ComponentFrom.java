@@ -1,8 +1,6 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-
 import urSQL.System.ResultSet;
 
 /**
@@ -12,9 +10,21 @@ import urSQL.System.ResultSet;
  */
 public class ComponentFrom implements Component
 {
+	/**
+	 * 
+	 */
 	protected String _TableName;
+	
+	/**
+	 * 
+	 */
 	protected ArrayList<String> _JoinTables;
 	
+	/**
+	 * 
+	 * @param pTableName
+	 * @param pJoinTables
+	 */
 	public ComponentFrom(String pTableName, ArrayList<String> pJoinTables)
 	{
 		this._TableName = pTableName;
@@ -22,6 +32,9 @@ public class ComponentFrom implements Component
 	}
 	
 	@Override
+	/**
+	 * @see urSQL.RuntimeDatabaseProcessor.Components.Component#apply(urSQL.System.ResultSet)
+	 */
 	public ResultSet apply(ResultSet pResultSet) 
 	{
 		// Recuperar la tabla del SystemCatalog.

@@ -6,6 +6,9 @@ import urSQL.System.TableMetadata;
 public class SystemCatalog 
 {
     private static SystemCatalog INSTANCE = new SystemCatalog();
+    
+    public String _CurrentDatabase = "";
+    
 
     private SystemCatalog() 
     {
