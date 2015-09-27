@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
-import java.util.LinkedList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Vector;
 
 import urSQL.StoredDataManager.BplusJ.*;
@@ -44,11 +44,11 @@ public class StoreDataManager {
 	/**
 	 * Byte, se escribe cuando una columna es nula
 	 */
-	private static final byte NULL_VALUE = (byte)0x00;
+	private static final byte NULL_VALUE = (byte)0xAA;
 	/**
 	 * Byte de tipo entero
 	 */
-	private static final byte BY_TYPE_INTEGER = (byte)0x01;
+	private static final byte BY_TYPE_INTEGER = (byte)0x00;
 	/**
 	 * Byte de tipo char
 	 */
@@ -60,11 +60,11 @@ public class StoreDataManager {
 	/**
 	 * Byte de tipo decimal, como el float
 	 */
-	private static final byte BY_TYPE_DECIMAL = (byte)0x04;
+	private static final byte BY_TYPE_DECIMAL = (byte)0x01;
 	/**
 	 * Byte de tipo fecha
 	 */
-	private static final byte BY_TYPE_DATETIME = (byte)0x05;
+	private static final byte BY_TYPE_DATETIME = (byte)0x04;
 	
 	/**************************KEYS DE CONTROL****************************/
 	
@@ -82,6 +82,11 @@ public class StoreDataManager {
 	 * metadatada para ser recuperada
 	 */
 	private static final String METADATA_KEY = " METADATA";
+	
+	/**
+	 * 
+	 */
+	private String database_name;
 	
 	/**
 	 * Crea la carpeta de las bases de datos si estas no existen.
@@ -206,6 +211,22 @@ public class StoreDataManager {
 	}
 	
 	/**
+	 * Elige cual es la base de datos actual
+	 * 
+	 * @param database_name nombre de la base de datos
+	 */
+	public void setDatabase(String database_name){
+		File database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
+		
+		if(!database.exists()){
+			System.err.format("La base de datos %s no existe\n", database_name);
+		}
+		else{
+			this.database_name = database_name;
+		}
+	}
+	
+	/**
 	 * Crea una table en una base de datos existente.
 	 * 
 	 * @param table_name nombre de la tabla a crear.
@@ -218,7 +239,7 @@ public class StoreDataManager {
 	 * @param dabase_name nombre de la base de datos
 	 * en la que se va a crear la tabla.
 	 */
-	public void createTable(String database_name, TableMetadata metadata){
+	public void createTable(TableMetadata metadata){
 		//nombre de la base de datos
 		String table_name  = metadata.getTableName();
 		//se crea el directorio a ver si existe
@@ -297,7 +318,7 @@ public class StoreDataManager {
 	 * 
 	 * @param metadata informaci�n que uno le importa 
 	 * 
-	 * @return byte[]con el LinkedList
+	 * @return byte[]con el arraylist
 	 */
 	private byte[] writeMetadata(TableMetadata metadata){
 		//se saca un iterador de la lista de atributos
@@ -359,15 +380,13 @@ public class StoreDataManager {
 	
 	/**
 	 * Agrega una fila en una tabla de una base de datos.
-	 * 
-	 * @param database_name Nombre de la base de datos.
 	 *  
 	 * @param table_name Nombre de la tabla.
 	 * 
 	 * @param vec Vector qeu contiene los tipos y datos a 
 	 * insertar en la tabla.
 	 */
-	public void insertRow(String database_name, TableMetadata metadata, String[] data){
+	public void insertRow(TableMetadata metadata, String[] data){
 		//se verifica que exista la carpeta de bases de datos
 		File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
 		//nombre de la tabla
@@ -631,7 +650,7 @@ public class StoreDataManager {
 	 * 
 	 * @return String con la fila.
 	 */
-	public String getRow(String pk, String database_name, String table_name){
+	public String getRow(String pk, String table_name){
 		String result = "";
 		//se verifica que exista la carpeta de bases de datos
 		File file_database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
@@ -756,13 +775,13 @@ public class StoreDataManager {
 	}
 	
 	/**
-	 * Retorna todos los datos de la tabla, en forma de LinkedList de LinkedList
+	 * Retorna todos los datos de la tabla, en forma de ArrayList de ArrayList
 	 * 
 	 * @param database_name nombre de la base de datos 
 	 * 
 	 * @param table_name nombre de la tabla
 	 * 
-	 * @return LinkedList de LinkedList que representa la tabla
+	 * @return ArrayList de ArrayList que representa la tabla
 	 */
 	public LinkedList<LinkedList<String>> getTable(String database_name, String table_name){
 		//tabla resultante
@@ -834,7 +853,7 @@ public class StoreDataManager {
 	 * @param array arreglo de bytes que corresponde al registro de 
 	 * de la fila 
 	 * 
-	 * @return LinkedList de String que contiene los datos
+	 * @return ArrayList de String que contiene los datos
 	 */
 	private LinkedList<String> byteArray2List(byte[] array){
 		//lista con los string 
@@ -1138,5 +1157,46 @@ public class StoreDataManager {
 		return res;
 	}
 	
+	/**
+	 * Retorna la lista de Databases que hay creadas
+	 * 
+	 * @return LinkedList de String con los nombres 
+	 * de las bases de datas creadas
+	 */
+	public LinkedList<String> getDatabases(){
+		
+		File databases = new File(DATABASES_PATH);
+		
+		String[] str_databases = databases.list();
+		
+		LinkedList<String> list = new LinkedList<String>();
+		
+		for (int i = 0; i < str_databases.length; i++) {
+			list.add(str_databases[i]);
+		}
+		
+		return list;
+	}
 	
+	/**
+     * Se elimina la tabla de la base de datos
+     * 
+     * @param table_name nombre de la tabla
+     */
+    public void dropTable(String table_name){
+    	File database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no existe\n", database_name);
+    	}
+    	else{
+    		File table = new File(database, table_name);
+    		if(!table.exists()){
+    			System.err.format("La tabla %s no existe en la base de datos\n" , table_name);
+    		}
+    		else{
+    			recursiveFileDelete(table);
+    		}
+    	}
+    }
+
 }
