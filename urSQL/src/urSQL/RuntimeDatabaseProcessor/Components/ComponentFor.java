@@ -1,6 +1,10 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
 import urSQL.System.ResultSet;
+import urSQL.System.TableAttribute;
+import urSQL.System.TableData;
+import urSQL.System.TableMetadata;
+import urSQL.System.TableRegister;
 
 /**
  * 
@@ -32,20 +36,33 @@ public class ComponentFor implements Component
 	@Override
 	public ResultSet apply(ResultSet pResultSet) 
 	{
-		// Converts the table data to XML or JSON
-		@SuppressWarnings("unused")
+		// Converts the Result Set to a Standard Communicator File
 		String dataInFormat = "";
-		//------- Type: XML -------
+		
+		// Converts To A XML File
 		if (this._FormatType.equals(ComponentFor.TYPE_XML))
 		{
 			dataInFormat = this.convertToJson(pResultSet);
 		}
-		//------- Type: JSON-------
+		
+		// Converts To A JSON File
 		if (this._FormatType.equals(ComponentFor.TYPE_JSON))
 		{
 			dataInFormat = this.convertToJson(pResultSet);
 		}
-		return null;
+		
+		// Table Data of the ResultSet
+		TableRegister tableRegister = new TableRegister();
+		tableRegister.getRegister().add(dataInFormat);
+		TableData tableData = new TableData();
+		tableData.getData().add((tableRegister));
+		
+		// METADATA of the ResultSet
+		TableAttribute tableAttribute = new TableAttribute(this._FormatType, TableAttribute.TYPE_CHAR);
+		TableMetadata tableMetadata = new TableMetadata("ResultSet In Format", tableAttribute);
+		tableMetadata.getTableColumns().add(tableAttribute);
+		
+		return (new ResultSet(tableData, tableMetadata));
 	}
 	
 	/**
