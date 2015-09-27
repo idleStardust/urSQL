@@ -13,6 +13,9 @@ public class ComponentSetDatabase implements Component {
 	public ResultSet apply(ResultSet pResultSet) {
 		// TODO Auto-generated method stub
 		
+		SystemCatalog sc = SystemCatalog.getInstance();
+		sc.setDatabase(database_name);
+		
 		StoreDataManager sdm = new StoreDataManager();
 		sdm.setDatabase(database_name);
 		

@@ -16,7 +16,6 @@ public class ComponentDropDatabase implements Component {
 		sdm.deleteDatabaseScheme(database_name);
 		
 		SystemCatalog sc = SystemCatalog.getInstance();
-		
 		sc.dropDatabase(database_name);
 		
 		return null;

@@ -16,9 +16,10 @@ public class ComponentAlterTable implements Component {
 	public ResultSet apply(ResultSet pResultSet) 
 	{
 		
-		//sc.addReference(table1, column1, table2, column2);
+		SystemCatalog sc = SystemCatalog.getInstance();
 		
-		// TODO Auto-generated method stub
+		sc.addReference(table1, column1, table2, column2);
+		
 		return null;
 		
 	}
