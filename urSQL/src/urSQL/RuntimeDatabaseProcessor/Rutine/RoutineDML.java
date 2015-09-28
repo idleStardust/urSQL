@@ -59,7 +59,7 @@ public class RoutineDML extends Routine
 		ResultSet resultPartial = this.runPlan();
 	
 		// Final response to the queried
-		ResultSet resultFinalExtreme = null;
+		// ResultSet resultFinalExtreme = null;
 		
 		// Instruction for a Delete Routine
 		// Deletes from a TableData 
@@ -102,14 +102,10 @@ public class RoutineDML extends Routine
 		// Deletes from a TableData 
 		if(this._Command.equalsIgnoreCase(CONSTANT_SELECT))
 		{
-			resultFinalExtreme = resultPartial;
+			;
+			//resultFinalExtreme = resultPartial;
 		}
-		
-		else
-		{
-			resultFinalExtreme = null;
-		}
-		return (resultFinalExtreme);
+		return (resultPartial);
 	}
 	
 	private ResultSet insertRows(ResultSet pResultSet)

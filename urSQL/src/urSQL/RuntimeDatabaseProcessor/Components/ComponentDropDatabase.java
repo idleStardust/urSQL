@@ -22,7 +22,7 @@ public class ComponentDropDatabase implements Component {
 		return null;
 	}
 	
-	public void setDatabase(String pDatabase_name)
+	public ComponentDropDatabase(String pDatabase_name)
 	{
 		database_name = pDatabase_name;
 	}

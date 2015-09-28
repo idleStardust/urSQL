@@ -122,7 +122,7 @@ public class SystemCatalog
 	 */
 	private static final String DATETIME = "4";
 	
-	private String database_name;
+	private String database_name="Basesita";
 	
 	/**
 	 * Crea la estructura de archivos y carpetas del
@@ -428,7 +428,7 @@ public class SystemCatalog
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
-		//regisros de bytes con el tamaño
+		//regisros de bytes con el tamaï¿½o
 		b_column1 = byteArrayConcatenate(short2bytes((short)b_column1.length), b_column1);
 		b_table2 = byteArrayConcatenate(short2bytes((short)b_table2.length), b_table2);
 		b_column2 = byteArrayConcatenate(short2bytes((short)b_column2.length), b_column2);
@@ -704,7 +704,7 @@ public class SystemCatalog
      * 
      * @param column_name nombre de la columna
      * 
-     * @return true si esta dentro del árbol y false
+     * @return true si esta dentro del ï¿½rbol y false
      * en cualquier otro caso
      */
     public boolean isHaveReferences(String table_name, String column_name){

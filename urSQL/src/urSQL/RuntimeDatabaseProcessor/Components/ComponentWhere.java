@@ -1,6 +1,6 @@
 package urSQL.RuntimeDatabaseProcessor.Components;
 
-import java.util.Iterator;
+import java.util.Iterator;	
 
 import urSQL.System.ResultSet;
 import urSQL.System.TableAttribute;

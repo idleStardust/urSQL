@@ -7,6 +7,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -39,6 +42,12 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 
 import urSQL.QueryProcessor.QueryProcessor;
+import urSQL.RuntimeDatabaseProcessor.Components.ComponentGroup;
+import urSQL.System.ResultSet;
+import urSQL.System.TableAttribute;
+import urSQL.System.TableData;
+import urSQL.System.TableMetadata;
+import urSQL.System.TableRegister;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -92,8 +101,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		
 		
 		private JTable table;
-		String columnas[]={"Color","comida"};
-		String Matriz[][]={{"rojo","pescado"},{"azul","pizza"},{"cafe","conchita"},{"rojo","pescado"},{"azul","pizza"},{"cafe","conchita"},{"rojo","pescado"},{"azul","pizza"},{"cafe","conchita"}};
+		String columnas[];
+		String Matriz[][] ;
 		private JScrollPane scrollPane_1;
 		String bebe[][][]={{{"Base de Datos1"}},{ {"Tabla"},{"nom_col1","nom_col2"},{"noref1","nom_ref2"},{"nom_con1","nom_con2"}},{ {"Tabla2"},{"nom_col1","nom_col2"},{"noref1","nom_ref2"},{"nom_con1","nom_con2"}}};
 				
@@ -233,13 +242,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        menuArchivo.setText("Archivo");
 	        barraMenu.add(menuArchivo);
 	        
-	        // menuEdicion.setText("Edicion");
-	        // barraMenu.add(menuEdicion);
-	        
-	        //menuOpciones.setText("Opciones");
-	        //barraMenu.add(menuOpciones);
-	        
-	        menuAcercaDe.setText("Informaci�n");
+	        menuAcercaDe.setText("Informacion");
 	        barraMenu.add(menuAcercaDe);
 
 	        setJMenuBar(barraMenu);
@@ -362,9 +365,8 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 	        scrollPane_1.setBounds(302, 329, 410, 102);
 	        miPanel.add(scrollPane_1);
 	        
-	        table= new JTable(Matriz,columnas);
-	        table.setBackground(new Color(135, 206, 250));
-	        scrollPane_1.setViewportView(table);
+	        
+	       
 	        
 	        
 	        
@@ -400,11 +402,17 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 			{
 				guardarArchivo();
 			}
+			if (evento.getSource()==botonschema)
+			{
+				
+			}
 			if (evento.getSource()==botontabla)
 			{
 				this.q_proc.setQuery(areaDeTexto.getText());
 				try {
 					this.q_proc.execute();
+					ResultSet bulldozer = this.q_proc.getRS();
+					this.fillTable(bulldozer);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -435,7 +443,110 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 				cadenaArchivo=""+itemSalir.getText();
 				dispose();
 			}
+			
 		}
+		public void fillTable(ResultSet bulldozer){
+			/*String tableName = "estudiante";
+			String nombre = "carne";
+			String tipo = "INTEGER";
+			String nombre2 = "nombre";
+			String tipo2 = "VARCHAR";
+			TableAttribute pk = new TableAttribute(nombre, tipo);
+			TableAttribute col1 = new TableAttribute(nombre, tipo);
+			TableAttribute col2 = new TableAttribute(nombre2, tipo2);
+			LinkedList<TableAttribute> columnasx = new LinkedList<TableAttribute>();
+			columnasx.add(col1);
+			columnasx.add(col2);
+			LinkedList<String> reg1 = new LinkedList<String>();
+			reg1.add("2012");
+			reg1.add("hector");
+			LinkedList<String> reg2 = new LinkedList<String>();
+			reg2.add("2013");
+			reg2.add("santiago");
+			LinkedList<String> reg3 = new LinkedList<String>();
+			reg3.add("2010");
+			reg3.add("astro");
+			LinkedList<String> reg4 = new LinkedList<String>();
+			reg4.add("2005");
+			reg4.add("jenkins");
+			LinkedList<String> reg5 = new LinkedList<String>();
+			reg5.add("2005");
+			reg5.add("satan");
+
+			TableRegister treg1 = new TableRegister(reg1);
+			TableRegister treg2 = new TableRegister(reg2);
+			TableRegister treg3 = new TableRegister(reg3);
+			TableRegister treg4 = new TableRegister(reg4);
+			TableRegister treg5 = new TableRegister(reg5);
+			LinkedList<TableRegister> tdata = new LinkedList<TableRegister>();
+			tdata.add(treg1);
+			tdata.add(treg2);
+			tdata.add(treg3);
+			tdata.add(treg4);
+			tdata.add(treg5);
+			TableData tableData = new TableData(tdata);
+			TableMetadata tMetaData = new TableMetadata(tableName, columnasx, pk);
+			ResultSet bulldozer = new ResultSet(tableData, tMetaData);*/
+			Iterator< TableRegister > regIterator3 = bulldozer.getTableData().getData().iterator();
+			TableRegister columnRegister = new TableRegister();
+			TableRegister tmp3 = null;
+			
+			//String columnas1[] ;
+			int i=0;
+			LinkedList<String> tupla = new LinkedList<String>();
+			String columnasp[];
+			
+			while (regIterator3.hasNext())
+			{
+				tmp3 = regIterator3.next();
+				
+				//columnasp=tmp3.getRegister().toArray(new String[tmp3.getRegister().size()]);
+				System.out.println(bulldozer.getTableData().getData().getFirst().getRegister().size());
+			}
+			Iterator< TableAttribute > regIterator4 = bulldozer.getTableMetadata().getTableColumns().iterator();
+			LinkedList<String> columnasstr = new LinkedList<String>();
+			TableAttribute tmp4 = null;
+			
+			while (regIterator4.hasNext())
+			{
+				tmp4 = regIterator4.next();
+				System.out.println(tmp4.getName());
+				columnasstr.add(tmp4.getName());
+				
+				
+			}
+			System.out.println(columnasstr);
+//			String[] columnas1 = linkedlist.toArray(new String[linkedlist.size()]);
+			String columnas1[];
+			columnas1=columnasstr.toArray(new String[columnasstr.size()]);
+			
+			//Object columnas1[]=bulldozer.getTableData().getData().toArray().;
+		
+			String Matriz1[][]={tmp3.getRegister().toArray(new String[tmp3.getRegister().size()]),{"azul","pizza"},{"cafe","conchita"},{"rojo","pescado"},{"azul","pizza"},{"cafe","conchita"},{"rojo","pescado"},{"azul","pizza"},{"cafe","conchita"}};
+			System.out.println(bulldozer.getTableData().getData().size());
+			columnas=columnas1;
+			Matriz=ObtieneMatriz(bulldozer.getTableData());
+			table= new JTable(Matriz,columnas);
+	        table.setBackground(new Color(135, 206, 250));
+	        scrollPane_1.setViewportView(table);
+			
+			
+			
+		}
+		
+
+		private String[][] ObtieneMatriz(TableData BB) {
+
+			String informacion[][] = new String [BB.getData().size()][BB.getData().getFirst().getRegister().size()];
+			
+			for (int x = 0; x < BB.getData().size(); x++) {
+				for (int y = 0; y < BB.getData().get(x).getRegister().size(); y++) {
+					informacion[x][y]= BB.getData().get(x).getRegister().get(y);
+				}
+			}
+			return informacion;
+		}
+
 		private String abrirArchivo() {
 			
 			String aux=""; 		
@@ -493,7 +604,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 
 		    }
 
-		   
+		  
 
 		    public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
 

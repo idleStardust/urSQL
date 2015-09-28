@@ -66,8 +66,8 @@ public class Serializer
 			StreamResult result = new StreamResult(new File("table.xml"));
 			transformer.transform(source, result);
 
-			StreamResult consoleResult = new StreamResult(System.out);
-			transformer.transform(source, consoleResult);
+			//StreamResult consoleResult = new StreamResult(System.out);
+			//transformer.transform(source, consoleResult);
 			
 			StringWriter outWriter = new StringWriter();
 			StreamResult extremeResult = new StreamResult( outWriter );

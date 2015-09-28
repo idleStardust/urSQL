@@ -4,14 +4,21 @@ import java.util.*;
 
 import org.antlr.runtime.*;
 
+import urSQL.System.ResultSet;
+import urSQL.RuntimeDatabaseProcessor.RuntimeDatabaseProcessor;
+import urSQL.RuntimeDatabaseProcessor.Rutine.Routine;
+
 import java.io.*;
 import java.nio.charset.*;
 
-public class QueryProcessor {
+public class QueryProcessor 
+{
 	private String query;
 	private PrintWriter writer;
+	private ResultSet rs;
 	
-	public QueryProcessor() {
+	public QueryProcessor() 
+	{
 		this.query = "";
 		try {
 			this.writer = new PrintWriter("historico_consultas.txt", "UTF-8");
@@ -35,6 +42,10 @@ public class QueryProcessor {
 		this.query = sql;
 	}
 	
+	public ResultSet getRS() {
+		return this.rs;
+	}
+	
 	public void start_cli() throws IOException {
 		System.out.println("========= urSQL CLI =========\n");
 		boolean flag = true;
@@ -46,7 +57,7 @@ public class QueryProcessor {
 				flag = false;
 				this.writer.close();
 			} else {
-				this.execute();
+				this.execute();				
 			}
 		}
 	}
@@ -60,6 +71,10 @@ public class QueryProcessor {
 		parser.programa();
 		if (parser.getStatus())
 		{
+			Routine r = parser.getRoutine();
+			RuntimeDatabaseProcessor culo = new RuntimeDatabaseProcessor();
+			this.rs = culo.playRoutine(r);
+			if (rs != null) rs.print();
 			this.writer.println(this.query + "\t\t" + "Ejecutada");
 			this.writer.close();
 		} else
