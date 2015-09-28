@@ -104,23 +104,25 @@ public class SystemCatalog
 	/**
 	 *
 	 */
-	private static final String INTEGER = "0";
+	private static final String INTEGER = "INTEGER";
 	/**
 	 * 
 	 */
-	private static final String DECIMAL = "1";
+	private static final String DECIMAL = "DECIMAL";
 	/**
 	 * 
 	 */
-	private static final String CHAR = "2";
+	private static final String CHAR = "CHAR";
 	/**
 	 * 
 	 */
-	private static final String VARCHAR = "3";
+	private static final String VARCHAR = "VARCHAR";
 	/**
 	 * 
 	 */
-	private static final String DATETIME = "4";
+	private static final String DATETIME = "DATETIME";
+	
+	/*-*-*-*-*-*-*-*-*-*-*-*-*-*-*Variables de clase*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*/
 	
 	private String database_name;
 	
@@ -394,7 +396,7 @@ public class SystemCatalog
 					xBplusTreeBytes tree_ref = xBplusTreeBytes.Initialize(new RandomAccessFile(ref_file_tree, "rw"), 
 							new RandomAccessFile(ref_file_blocks, "rw"), 10);
 					
-					byte[] register = addReferenceAux(column1, table2, column2);
+					byte[] register = addReferenceAux(table1, column1, table2, column2);
 					
 					tree_ref.set(column1, register);
 					
@@ -423,17 +425,20 @@ public class SystemCatalog
 	 * 
 	 * @return arreglo de bytes que representan los valores anteriores
 	 */
-	private byte[] addReferenceAux(String column1, String table2, String column2){
+	private byte[] addReferenceAux(String table1, String column1, String table2, String column2){
 		//registros de bytes
+		byte[] b_table1 = table1.getBytes();
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
 		//regisros de bytes con el tamaño
+		b_table1 = byteArrayConcatenate(short2bytes((short)b_table1.length), b_table1);
 		b_column1 = byteArrayConcatenate(short2bytes((short)b_column1.length), b_column1);
 		b_table2 = byteArrayConcatenate(short2bytes((short)b_table2.length), b_table2);
 		b_column2 = byteArrayConcatenate(short2bytes((short)b_column2.length), b_column2);
 		//re hace le registro final
-		byte[] result = byteArrayConcatenate(b_column1, b_table2);
+		byte[] result = byteArrayConcatenate(b_table1, b_column1);
+		result = byteArrayConcatenate(result, b_table2);
 		result = byteArrayConcatenate(result, b_column2);
 		
 		return result;
@@ -747,6 +752,7 @@ public class SystemCatalog
     	
     	return result;
     }
+  
     
     /**
      * Retorna la referencia de otra tabla
@@ -758,7 +764,7 @@ public class SystemCatalog
      * @return par con el nombre de la columna y 
      * la tabla a la cual se le hace la referencia
      */
-    public Pair<String, String> getReference(String table_name, String column_name){
+    public Pair<Pair<String,String>,String> getReference(String table_name, String column_name){
     	File database = new File(database_name);
     	//si el archivo no existe
     	if(!database.exists()){
@@ -784,7 +790,7 @@ public class SystemCatalog
 					
 					byte[] reference = tree_ref.get(column_name);
 					
-					Pair<String, String> ref = getReferenceAux(reference);
+					Pair<Pair<String,String>,String> ref = getReferenceAux(reference);
 					
 					return ref;
 					
@@ -811,17 +817,22 @@ public class SystemCatalog
      * con el nombre de la tabla y el
      * nombre de la columna
      */
-    private Pair<String,String> getReferenceAux(byte[] reference){
-    	int sizeCn1 = (int) ByteBuffer.wrap(reference).getShort();
-    	String column1_name = new String(reference, 2, sizeCn1);
+    private Pair<Pair<String,String>,String> getReferenceAux(byte[] reference){
+    	int sizeT1 = (int) ByteBuffer.wrap(reference).getShort();
+    	String table1_name = new String(reference, 2, sizeT1);
     	
-    	int sizeT2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeCn1);
-    	String table2_name = new String(reference, 2+sizeCn1+2, sizeT2);
+    	int sizeCn1 = (int) ByteBuffer.wrap(reference).getShort(2+sizeT1);
+    	String column1_name = new String(reference, 2+sizeT1+2, sizeCn1);
     	
-    	int sizeCn2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeCn1+2+sizeT2);
-    	String column2_name = new String(reference, 2+sizeCn1+2+sizeT2+2, sizeCn2);
+    	int sizeT2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeT1+2+sizeCn1);
+    	String table2_name = new String(reference, 2+sizeT1+2+sizeCn1+2, sizeT2);
     	
-    	Pair<String, String> ref = new Pair<String, String>(table2_name, column2_name);
+    	int sizeCn2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeT1+2+sizeCn1+2+sizeT2);
+    	String column2_name = new String(reference, 2+sizeT1+2+sizeCn1+2+sizeT2+2, sizeCn2);
+    	
+    	Pair<Pair<String, String>, String> ref = 
+    			new Pair<Pair<String, String>, String>(new Pair<String, String>(table2_name, column2_name),
+    					column1_name);
     	
     	return ref;
     }

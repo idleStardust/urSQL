@@ -1200,5 +1200,60 @@ public class StoreDataManager {
     		}
     	}
     }
+    
+    /**
+     * Verifica si una llave esta en una tabla
+     * 
+     * @param table_name nombre de la tabla
+     * 
+     * @param key llave que se busca en el arbol
+     * 
+     * @return boolean que es true si se encuentra y 
+     * false si no.
+     */
+    public boolean isColumn(String table_name, String key){
+    	boolean result = false;
+    	File database = new File(DATABASES_PATH + FILE_SEPARATOR + database_name);
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no existe\n", database_name);
+    	}else{
+    		File table = new File(database, table_name);
+    		if(!table.exists()){
+    			System.err.format("La tabla %s no existe en la base de datos\n" , table_name);
+    		}
+    		else{
+    			//se verifica que existan los archivos de las tablas 
+				File file_blocks = new File(table, table_name + BLOCKS_SUFFIX);
+				File file_tree = new File(table, table_name + TREE_SUFIX);
+				//si no existen los archivos de la tabla
+				if(!file_blocks.exists() || !file_tree.exists()){
+					System.err.format("La tabla con el nombre %s no ha sido creada\n"
+							+ "o algun archivo a sido corrompido\n", table_name);
+				}
+				
+				else{
+					try {
+						xBplusTreeBytes tree = xBplusTreeBytes.ReOpen(new RandomAccessFile(file_tree, "rw"), 
+								new RandomAccessFile(file_blocks, "rw"));
+						
+						result = tree.ContainsKey(key);
+						
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+    		}
+    	}
+    	
+    	
+    	return result;
+    }
 
+    
+    
+    
 }
