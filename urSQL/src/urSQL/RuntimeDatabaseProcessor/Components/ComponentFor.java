@@ -72,7 +72,7 @@ public class ComponentFor implements Component
 	public String convertToXML(ResultSet pResultSet)
 	{
 		Serializer d = new Serializer(pResultSet);
-		return "HelloImXML";
+		return d.serialize();
 	}
 	
 	/**
@@ -80,6 +80,7 @@ public class ComponentFor implements Component
 	 */
 	public String convertToJson(ResultSet pResultSet)
 	{
-		return "helloBitchImJson";
+		Serializer d = new Serializer(pResultSet);
+		return d.serializeJson();
 	}
 }
