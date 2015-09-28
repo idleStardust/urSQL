@@ -431,7 +431,7 @@ public class SystemCatalog
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
-		//regisros de bytes con el tamaï¿½o
+		//regisros de bytes con el tamaño
 		b_table1 = byteArrayConcatenate(short2bytes((short)b_table1.length), b_table1);
 		b_column1 = byteArrayConcatenate(short2bytes((short)b_column1.length), b_column1);
 		b_table2 = byteArrayConcatenate(short2bytes((short)b_table2.length), b_table2);
@@ -837,19 +837,103 @@ public class SystemCatalog
     	return ref;
     }
     
+    /**
+     * Verifica que exista una tabla
+     * 
+     * @param pTableName nombre de la tabla a 
+     * verificar 
+     * 
+     * @return true si existe la tabla, false 
+     * en otro caso
+     */
     public boolean tableExist (String pTableName)
     {
-    	return true;
+    	boolean result = false;
+    	
+    	File database = new File(SYSTEM_CATALOG_PATH + FILE_SEPARATOR + database_name);
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no esta\n", database_name);
+    	}
+    	else{
+    		File table = new File(database, pTableName);
+        	
+        	result = table.exists();
+    	}
+    	
+    	
+    	
+    	return result;
     }
     
+    /**
+     * Verifica que exista una columna
+     * 
+     * @param pTableName nombre de la tabla en 
+     * la que se va a verificar la columna
+     * 
+     * @param pColumnName nombre de la columna a
+     * verficar
+     * 
+     * @return boolean que es true si existe la columna
+     */
     public boolean columnExist(String pTableName, String pColumnName)
     {
-    	return true;
+    	boolean result = false;
+    	
+    	File database = new File(SYSTEM_CATALOG_PATH + FILE_SEPARATOR + database_name);
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no esta\n", database_name);
+    	}
+    	else{
+    		File table = new File(database, pTableName);
+        	
+        	if(!table.exists()){
+        		System.err.format("No existe la tabla %s en la base %s\n", pTableName);
+        	}else{
+        		//se crea el arbol
+    			String inf_file = pTableName + INFORMATION;
+    			
+    			File inf_file_tree = new File(table, inf_file + TREE_SUFIX);
+				File inf_file_blocks = new File(table, inf_file + BLOCKS_SUFFIX);
+				
+				if(!inf_file_tree.exists() || !inf_file_blocks.exists()){
+					System.err.format("Los archivos de la tabla %s estan corrompidos\n", pTableName);
+				}
+				else{
+					try {
+						xBplusTreeBytes tree_inf = xBplusTreeBytes.ReOpen(new RandomAccessFile(inf_file_tree, "rw"), 
+								new RandomAccessFile(inf_file_blocks, "rw"));
+						
+						result = tree_inf.ContainsKey(pColumnName);
+						tree_inf.Shutdown();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+        	}
+    	}
+    	
+    	return result;
     }
-    
+
+    /**
+     * Verifica si existe la base de datos
+     * 
+     * @param pDataBaseName nombre de la base
+     * de datos 
+     * 
+     * @return true si existe, false en otro caso
+     */
     public boolean databaseExist(String pDataBaseName)
     {
-    	return true;
+    	File database = new File(SYSTEM_CATALOG_PATH + FILE_SEPARATOR + pDataBaseName);
+    	
+    	return database.exists();
     }
     
 }
