@@ -6,7 +6,6 @@ import urSQL.RuntimeDatabaseProcessor.DataIntegrityManager;
 import urSQL.RuntimeDatabaseProcessor.Components.Component;
 import urSQL.StoredDataManager.StoreDataManager;
 import urSQL.System.ResultSet;
-import urSQL.System.TableMetadata;
 import urSQL.System.TableRegister;
 import urSQL.SystemCatalog.SystemCatalog;
 

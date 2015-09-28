@@ -10,7 +10,8 @@ public class ComponentNewDatabase implements Component {
 	String _database_name;
 	
 	@Override
-	public ResultSet apply(ResultSet pResultSet) {
+	public ResultSet apply(ResultSet pResultSet) 
+	{
 		// TODO Auto-generated method stub
 		
 		SystemCatalog sc = SystemCatalog.getInstance();
