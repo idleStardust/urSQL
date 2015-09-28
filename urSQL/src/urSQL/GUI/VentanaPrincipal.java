@@ -662,7 +662,7 @@ public class VentanaPrincipal extends JFrame implements ActionListener
 		 			save.close();
 		 			JOptionPane.showMessageDialog(null,
 		 					"El archivo se a guardado Exitosamente",
-		 					"Informaci�n",JOptionPane.INFORMATION_MESSAGE);
+		 					"Informacion",JOptionPane.INFORMATION_MESSAGE);
 			    }
 	 		 }
 	 	   catch(IOException ex)
