@@ -826,4 +826,19 @@ public class SystemCatalog
     	return ref;
     }
     
+    public boolean tableExist (String pTableName)
+    {
+    	return true;
+    }
+    
+    public boolean columnExist(String pTableName, String pColumnName)
+    {
+    	return true;
+    }
+    
+    public boolean databaseExist(String pDataBaseName)
+    {
+    	return true;
+    }
+    
 }

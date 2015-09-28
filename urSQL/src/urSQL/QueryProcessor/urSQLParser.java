@@ -8,6 +8,7 @@ import java.util.LinkedList;
 
 import urSQL.API.ResultSet;
 import urSQL.RuntimeDatabaseProcessor.Rutine.*;
+import urSQL.SystemCatalog.SystemCatalog;
 import urSQL.RuntimeDatabaseProcessor.Components.*;
 
 import org.antlr.runtime.*;
@@ -264,7 +265,8 @@ public class urSQLParser extends Parser {
 			this.routine.getComponents().add(dd);
 		}
 
-		public void createDB(String name) {
+		public void createDB(String name) 
+		{
 			ComponentNewDatabase cd = new ComponentNewDatabase(name);
 			this.routine = new RoutineDLL("NEW_DATABASE");
 			this.routine.getComponents().add(cd);
