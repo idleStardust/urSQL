@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.Vector;
 
+import urSQL.StoredDataManager.Pair;
 import urSQL.StoredDataManager.BplusJ.xBplusTreeBytes;
 import urSQL.System.TableAttribute;
 import urSQL.System.TableMetadata;
@@ -423,14 +424,15 @@ public class SystemCatalog
 	 * @return arreglo de bytes que representan los valores anteriores
 	 */
 	private byte[] addReferenceAux(String column1, String table2, String column2){
+		//registros de bytes
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
-		
+		//regisros de bytes con el tamaño
 		b_column1 = byteArrayConcatenate(short2bytes((short)b_column1.length), b_column1);
 		b_table2 = byteArrayConcatenate(short2bytes((short)b_table2.length), b_table2);
 		b_column2 = byteArrayConcatenate(short2bytes((short)b_column2.length), b_column2);
-		
+		//re hace le registro final
 		byte[] result = byteArrayConcatenate(b_column1, b_table2);
 		result = byteArrayConcatenate(result, b_column2);
 		
@@ -695,5 +697,133 @@ public class SystemCatalog
     	return new TableAttribute(name, str_type);
     }
     
+    /**
+     * Verifica si una columna tiene referencias
+     * 
+     * @param table_name nombre de la tabla
+     * 
+     * @param column_name nombre de la columna
+     * 
+     * @return true si esta dentro del árbol y false
+     * en cualquier otro caso
+     */
+    public boolean isHaveReferences(String table_name, String column_name){
+    	boolean result = false;
+    	
+    	File database = new File(database_name);
+    	//si el archivo no existe
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no existe\n", database_name);
+    	}
+    	//si la base existe
+    	else{
+    		File table = new File(database, table_name);
+    		//Si la tabla no existe
+    		if(!table.exists()){
+    			System.err.format("La tabla no existe en la base de datos\n");
+    		}
+    		//si la tabla existe
+    		else{
+    			String ref_file = table_name + REFERENCES;
+    			//files de referencias
+				File ref_file_tree = new File(table, ref_file + TREE_SUFIX);
+				File ref_file_blocks = new File(table, ref_file + BLOCKS_SUFFIX);
+				//se crea el arbol
+				try {
+					xBplusTreeBytes tree_ref = xBplusTreeBytes.ReOpen(new RandomAccessFile(ref_file_tree, "rw"), 
+							new RandomAccessFile(ref_file_blocks, "rw"));
+					//verfiica si la columna tiene alguna referencia
+					result = tree_ref.ContainsKey(column_name);
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	
+    	return result;
+    }
+    
+    /**
+     * Retorna la referencia de otra tabla
+     * 
+     * @param table_name nombre de la tabla
+     * 
+     * @param column_name nombre de la columna
+     * 
+     * @return par con el nombre de la columna y 
+     * la tabla a la cual se le hace la referencia
+     */
+    public Pair<String, String> getReference(String table_name, String column_name){
+    	File database = new File(database_name);
+    	//si el archivo no existe
+    	if(!database.exists()){
+    		System.err.format("La base de datos %s no existe\n", database_name);
+    	}
+    	
+    	else{
+    		File table = new File(database, table_name);
+    		//Si la tabla no existe
+    		if(!table.exists()){
+    			System.err.format("La tabla no existe en la base de datos\n");
+    		}
+    		//si la tabla existe
+    		else{
+    			String ref_file = table_name + REFERENCES;
+    			//files de referencias
+				File ref_file_tree = new File(table, ref_file + TREE_SUFIX);
+				File ref_file_blocks = new File(table, ref_file + BLOCKS_SUFFIX);
+				//se crea el arbol
+				try {
+					xBplusTreeBytes tree_ref = xBplusTreeBytes.ReOpen(new RandomAccessFile(ref_file_tree, "rw"), 
+							new RandomAccessFile(ref_file_blocks, "rw"));
+					
+					byte[] reference = tree_ref.get(column_name);
+					
+					Pair<String, String> ref = getReferenceAux(reference);
+					
+					return ref;
+					
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
+    	
+    	
+    	return null;
+    }
+    
+    /**
+     * Crea un pair a partir del byte
+     * 
+     * @param reference array de bytes 
+     * 
+     * @return retorna un par de string
+     * con el nombre de la tabla y el
+     * nombre de la columna
+     */
+    private Pair<String,String> getReferenceAux(byte[] reference){
+    	int sizeCn1 = (int) ByteBuffer.wrap(reference).getShort();
+    	String column1_name = new String(reference, 2, sizeCn1);
+    	
+    	int sizeT2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeCn1);
+    	String table2_name = new String(reference, 2+sizeCn1+2, sizeT2);
+    	
+    	int sizeCn2 = (int) ByteBuffer.wrap(reference).getShort(2+sizeCn1+2+sizeT2);
+    	String column2_name = new String(reference, 2+sizeCn1+2+sizeT2+2, sizeCn2);
+    	
+    	Pair<String, String> ref = new Pair<String, String>(table2_name, column2_name);
+    	
+    	return ref;
+    }
     
 }

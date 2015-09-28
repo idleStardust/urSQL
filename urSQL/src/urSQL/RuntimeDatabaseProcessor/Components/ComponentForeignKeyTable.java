@@ -3,7 +3,7 @@ package urSQL.RuntimeDatabaseProcessor.Components;
 import urSQL.System.ResultSet;
 import urSQL.SystemCatalog.SystemCatalog;
 
-public class ComponentAlterTable implements Component {
+public class ComponentForeignKeyTable implements Component {
 
 	
 	String table1;
@@ -25,7 +25,7 @@ public class ComponentAlterTable implements Component {
 	}
 	
 	
-	public ComponentAlterTable(String pTable1, String pColumn1, String pColumn2, String pTable2){
+	public ComponentForeignKeyTable(String pTable1, String pColumn1, String pColumn2, String pTable2){
 		table1 = pTable1;
 		table2 = pTable2;
 		

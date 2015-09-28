@@ -41,6 +41,8 @@ public class RoutineDML extends Routine
 	public RoutineDML(String pCommand, LinkedList<Component> pComponents) 
 	{
 		super(pCommand, pComponents);
+		
+		
 	}
 
 	/**
