@@ -431,7 +431,7 @@ public class SystemCatalog
 		byte[] b_column1 = column1.getBytes();
 		byte[] b_table2 = table2.getBytes();
 		byte[] b_column2 = column2.getBytes();
-		//regisros de bytes con el tamaño
+		//regisros de bytes con el tamaï¿½o
 		b_table1 = byteArrayConcatenate(short2bytes((short)b_table1.length), b_table1);
 		b_column1 = byteArrayConcatenate(short2bytes((short)b_column1.length), b_column1);
 		b_table2 = byteArrayConcatenate(short2bytes((short)b_table2.length), b_table2);
@@ -709,7 +709,7 @@ public class SystemCatalog
      * 
      * @param column_name nombre de la columna
      * 
-     * @return true si esta dentro del árbol y false
+     * @return true si esta dentro del ï¿½rbol y false
      * en cualquier otro caso
      */
     public boolean isHaveReferences(String table_name, String column_name){
@@ -835,6 +835,21 @@ public class SystemCatalog
     					column1_name);
     	
     	return ref;
+    }
+    
+    public boolean tableExist (String pTableName)
+    {
+    	return true;
+    }
+    
+    public boolean columnExist(String pTableName, String pColumnName)
+    {
+    	return true;
+    }
+    
+    public boolean databaseExist(String pDataBaseName)
+    {
+    	return true;
     }
     
 }

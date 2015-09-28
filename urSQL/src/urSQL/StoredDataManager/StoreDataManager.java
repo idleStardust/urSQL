@@ -86,7 +86,7 @@ public class StoreDataManager {
 	/**
 	 * 
 	 */
-	private String database_name;
+	private String database_name="Basesita";
 	
 	/**
 	 * Crea la carpeta de las bases de datos si estas no existen.
@@ -1060,7 +1060,7 @@ public class StoreDataManager {
 		int data_index = 0;
 		
 		while(index < metadata.length){
-			//se toma el tamaño
+			//se toma el tamaï¿½o
 			length = (int)ByteBuffer.wrap(metadata).getShort(index);
 			//por cada tipo se hace cambia el tipo
 			switch(metadata[index+2]){

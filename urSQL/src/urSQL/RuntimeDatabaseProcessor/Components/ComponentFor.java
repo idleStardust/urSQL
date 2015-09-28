@@ -43,7 +43,7 @@ public class ComponentFor implements Component
 		// Converts To A XML File
 		if (this._FormatType.equals(ComponentFor.TYPE_XML))
 		{
-			dataInFormat = this.convertToJson(pResultSet);
+			dataInFormat = this.convertToXML(pResultSet);
 		}
 		
 		// Converts To A JSON File

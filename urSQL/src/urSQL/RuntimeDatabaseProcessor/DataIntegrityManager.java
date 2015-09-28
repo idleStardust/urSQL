@@ -15,7 +15,8 @@ import urSQL.SystemCatalog.SystemCatalog;
 public class DataIntegrityManager 
 {
 	
-	public DataIntegrityManager(){
+	public DataIntegrityManager()
+	{
 		
 	}
 	

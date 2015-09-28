@@ -30,36 +30,6 @@ public class Serializer
 		return this.rs;
 	}
 	
-	public static void main(String[] args) 
-	{
-		String tableName = "estudiante";
-		String nombre = "carne";
-		String tipo = "INTEGER";
-		String nombre2 = "nombre";
-		String tipo2 = "VARCHAR";
-		TableAttribute pk = new TableAttribute(nombre, tipo);
-		TableAttribute col1 = new TableAttribute(nombre, tipo);
-		TableAttribute col2 = new TableAttribute(nombre2, tipo2);
-		LinkedList<TableAttribute> columnas = new LinkedList<TableAttribute>();
-		columnas.add(col1);
-		columnas.add(col2);
-		LinkedList<String> reg1 = new LinkedList<String>();
-		reg1.add("2012");
-		reg1.add("hector");
-		LinkedList<String> reg2 = new LinkedList<String>();
-		reg2.add("2013");
-		reg2.add("holandes");
-		TableRegister treg1 = new TableRegister(reg1);
-		TableRegister treg2 = new TableRegister(reg2);
-		LinkedList<TableRegister> tdata = new LinkedList<TableRegister>();
-		tdata.add(treg1);
-		tdata.add(treg2);
-		TableData tableData = new TableData(tdata);
-		TableMetadata tMetaData = new TableMetadata(tableName, columnas, pk);
-		ResultSet bulldozer = new ResultSet(tableData, tMetaData);
-		Serializer culo = new Serializer(bulldozer);
-		culo.serializeJson();
-	}
 	public String serialize()
 	{
 		String tableName = this.rs.getTableMetadata().getTableName();
@@ -96,8 +66,8 @@ public class Serializer
 			StreamResult result = new StreamResult(new File("table.xml"));
 			transformer.transform(source, result);
 
-			StreamResult consoleResult = new StreamResult(System.out);
-			transformer.transform(source, consoleResult);
+			//StreamResult consoleResult = new StreamResult(System.out);
+			//transformer.transform(source, consoleResult);
 			
 			StringWriter outWriter = new StringWriter();
 			StreamResult extremeResult = new StreamResult( outWriter );

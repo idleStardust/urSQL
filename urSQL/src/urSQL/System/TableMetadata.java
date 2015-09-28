@@ -40,11 +40,6 @@ public class TableMetadata
 		this(pTableName, new LinkedList<>(), pPrimaryKey);
 	}
 	
-	public TableMetadata(LinkedList<TableAttribute> pMeta)
-	{
-		this("", pMeta, null);
-	}
-	
 	public LinkedList< TableAttribute > addMetadata(TableMetadata pTableMetadata)
 	{
 		// Iterator Of Attributes

@@ -10,11 +10,6 @@ import java.util.LinkedList;
  */
 public class TableRegister 
 {
-	/*
-	 * 
-	 */
-	public static final String MORE_THAN = ">";
-	
 	/**
 	 * 
 	 */
@@ -125,24 +120,30 @@ public class TableRegister
 			                        String pAnotherValue, String pType)
 	{
 		boolean value = false;
-		if(pComparator.equalsIgnoreCase(CONSTANT_EQUAL_THAN)    || 
-				pComparator.equalsIgnoreCase(CONSTANT_LESS_THAN)||
-			    pComparator.equalsIgnoreCase(CONSTANT_MORE_THAN)||
-				pComparator.equalsIgnoreCase(CONSTANT_NOT))
+		if(     pComparator.equalsIgnoreCase(CONSTANT_LESS_THAN)||
+			    pComparator.equalsIgnoreCase(CONSTANT_MORE_THAN) )
 		{
-			TableRegister.valorate(pValue, pComparator, pAnotherValue, pType);
+			value = TableRegister.valorate(pValue, pComparator, pAnotherValue, pType);
+		}
+		if(pComparator.equalsIgnoreCase(CONSTANT_EQUAL_THAN))
+		{
+			value = pValue.equalsIgnoreCase(pAnotherValue);
+		}
+		if(pComparator.equalsIgnoreCase(CONSTANT_NOT))
+		{
+			value = !pValue.equalsIgnoreCase(pAnotherValue);
 		}
 		if(pComparator.equalsIgnoreCase(CONSTANT_LIKE))
 		{
-			value = pComparator.equalsIgnoreCase(CONSTANT_NULL);
+			value = pValue.endsWith(pAnotherValue);
 		}
 		if(pComparator.equalsIgnoreCase(CONSTANT_NOT_NULL))
 		{
-			value = pValue.equalsIgnoreCase(CONSTANT_NULL);
+			value = !pValue.equalsIgnoreCase(CONSTANT_NULL);
 		}
 		if(pComparator.equalsIgnoreCase(CONSTANT_IS_NULL))
 		{
-			value = !pValue.equalsIgnoreCase(CONSTANT_NULL);
+			value = pValue.equalsIgnoreCase(CONSTANT_NULL);
 		}
 		return value;
 	}
