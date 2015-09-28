@@ -1,5 +1,6 @@
 package urSQL.RuntimeDatabaseProcessor;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -20,7 +21,7 @@ public class DataIntegrityManager
 	}
 	
 	public boolean examineRS(ResultSet rs){
-		boolean result = true;
+		boolean result = false;
 	
 		//manejo de archivos
 		SystemCatalog sc = SystemCatalog.getInstance();
@@ -53,18 +54,7 @@ public class DataIntegrityManager
 		
 		for (int i = 0; i < rows.size(); i++) {
 			for (int j = 0; j < list_2.size(); j++) {
-				LinkedList<String> reg = rows.get(i).getRegister();
 				
-				int index = indexOf(reg, list_2.get(j).getSecond());
-				
-				String value1 = reg.get(index);
-				
-				boolean flag = sdm.isColumn(list_2.get(j).getFirst().getFirst(), value1);
-				
-				if(!flag){
-					result =false;
-					break;
-				}
 			}
 		}
 		
